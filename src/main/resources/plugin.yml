@@ -1,0 +1,9 @@
+name: SkyFactions
+version: ${project.version}
+main: fr.skynnotopia.skyfactions.Main
+load: STARTUP
+api-version: 1.13
+prefix: SkyFactions
+authors: [Deleranax]
+description: Plugin assurant la gestion des factions sur le serveur "Visceral Diplomacy"
+website: https://skynnotopia.yo.fr
