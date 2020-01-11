@@ -28,7 +28,7 @@ public final class Main extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
+        loader.close();
     }
 
     public static JavaPlugin getPlugin() {

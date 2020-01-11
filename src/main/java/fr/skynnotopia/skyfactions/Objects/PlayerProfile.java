@@ -18,18 +18,6 @@ public class PlayerProfile {
         this.isChief = isChief;
     }
 
-    public void save(boolean isNew) {
-        if (isNew) {
-            List<String> playersUUIDs = Config.factionsConfig_getStringList("activePlayers");
-            playersUUIDs.add(this.uuid.toString());
-            Config.factionsConfig_set("activePlayers", playersUUIDs);
-        }
-
-        Config.playersConfig_set("players." + uuid.toString() + ".faction", faction.getUUID());
-
-        Config.playersConfig_set("players." + uuid.toString() + ".faction", isChief);
-
-    }
 
     public UUID getUUID() {
         return uuid;

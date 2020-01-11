@@ -19,6 +19,7 @@ import static fr.skynnotopia.skyfactions.Main.logPrefix;
 
 public class Loader {
 
+    private int retryNumber = 0;
     public static Config config;
 
     public Territory getTerritory(UUID uuid) {
@@ -47,6 +48,7 @@ public class Loader {
         config = new Config();
 
         Bukkit.getLogger().log(Level.INFO, logPrefix + "--- SkyFaction Configs Loader ---");
+        Bukkit.getLogger().log(Level.INFO, logPrefix + "## Loading protocol ##");
         try {
 
             // Territories
@@ -134,6 +136,93 @@ public class Loader {
         }
 
         Bukkit.getLogger().log(Level.INFO, logPrefix + "--- SkyFaction Configs Loader ---");
+    }
+
+    public void close() {
+
+        Bukkit.getLogger().log(Level.INFO, logPrefix + "## Saving protocol ##");
+        try {
+            // Territories
+            Bukkit.getLogger().log(Level.INFO, logPrefix + "Step 1 : Saving Territories");
+            List<String> activeTerritories = new ArrayList<String>();
+            for (Territory terr : territories) {
+                activeTerritories.add(terr.getUUID().toString());
+
+                Config.territoriesConfig_set("territories." + terr.getUUID().toString() + ".base.world", terr.getBase().getWorld().getUID());
+                Config.territoriesConfig_set("territories." + terr.getUUID().toString() + ".base.x", terr.getBase().getBlockX());
+                Config.territoriesConfig_set("territories." + terr.getUUID().toString() + ".base.y", terr.getBase().getBlockY());
+                Config.territoriesConfig_set("territories." + terr.getUUID().toString() + ".base.z", terr.getBase().getBlockZ());
+
+                Config.territoriesConfig_set("territories." + terr.getUUID().toString() + ".vault.world", terr.getVault().getWorld().getUID());
+                Config.territoriesConfig_set("territories." + terr.getUUID().toString() + ".vault.x", terr.getVault().getBlockX());
+                Config.territoriesConfig_set("territories." + terr.getUUID().toString() + ".vault.y", terr.getVault().getBlockY());
+                Config.territoriesConfig_set("territories." + terr.getUUID().toString() + ".vault.z", terr.getVault().getBlockZ());
+
+                Config.territoriesConfig_set("territories." + terr.getUUID().toString() + ".lastChunkNumber", terr.getChunks().size());
+
+                for (TerritoryChunk ch : terr.getChunks()) {
+                    Config.territoriesConfig_set("territories." + terr.getUUID().toString() + ".chunks." + ch.getNumber() + ".x", ch.getChunk().getX());
+                    Config.territoriesConfig_set("territories." + terr.getUUID().toString() + ".chunks." + ch.getNumber() + ".z", ch.getChunk().getZ());
+                }
+                Bukkit.getLogger().log(Level.INFO, logPrefix + terr.getUUID().toString() + " has been successfully saved.");
+            }
+            Config.territoriesConfig_set("activeTerritories", activeTerritories);
+
+            // Factions
+            Bukkit.getLogger().log(Level.INFO, logPrefix + "Step 2 : Saving Factions");
+            List<String> activeFactions = new ArrayList<String>();
+            for (Faction fac : factions) {
+                activeFactions.add(fac.getUUID().toString());
+
+                Config.factionsConfig_set("factions." + fac.getUUID().toString() + "name", fac.getName());
+
+                Config.factionsConfig_set("factions." + fac.getUUID().toString() + ".reputationPoints", fac.getReputationPoints());
+
+                Config.factionsConfig_set("factions." + fac.getUUID().toString() + ".influencePoints", fac.getInfluencePoints());
+
+                Config.factionsConfig_set("factions." + fac.getUUID().toString() + ".chief", fac.getChief().toString());
+
+                Config.factionsConfig_set("factions." + fac.getUUID().toString() + ".territory", fac.getTerritory().getUUID());
+
+                for (UUID off : fac.getOfficers()) {
+                    Config.factionsConfig_set("factions." + fac.getUUID().toString() + ".officers", off.toString());
+                }
+
+                for (UUID mem : fac.getMembers()) {
+                    Config.factionsConfig_set("factions." + fac.getUUID().toString() + ".members", mem.toString());
+                }
+                Bukkit.getLogger().log(Level.INFO, logPrefix + fac.getUUID().toString() + " has been successfully saved.");
+            }
+            Config.factionsConfig_set("activeFactions", activeFactions);
+
+            // PlayerProfile
+            Bukkit.getLogger().log(Level.INFO, logPrefix + "Step 3 : Saving Players");
+            List<String> activePlayers = new ArrayList<String>();
+            for (PlayerProfile pl : players) {
+                activePlayers.add(pl.getUUID().toString());
+
+                activePlayers.add(pl.getUUID().toString());
+
+                Config.playersConfig_set("players." + pl.getUUID().toString() + ".faction", pl.getFaction().getUUID());
+
+                Config.playersConfig_set("players." + pl.getUUID().toString() + ".faction", pl.isChief());
+
+                Bukkit.getLogger().log(Level.INFO, logPrefix + pl.getUUID().toString() + " has been successfully saved.");
+            }
+            Config.factionsConfig_set("activePlayers", activePlayers);
+            Bukkit.getLogger().log(Level.INFO, logPrefix + "--- SkyFaction Configs Loader ---");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            retryNumber++;
+            if (retryNumber <= 3) {
+                Bukkit.getLogger().log(Level.SEVERE, logPrefix + "Can't save configs, Retrying...");
+                close();
+            } else  {
+                Bukkit.getLogger().log(Level.SEVERE, logPrefix + "Can't save configs after 3 retry.");
+                Bukkit.getLogger().log(Level.INFO, logPrefix + "--- SkyFaction Configs Loader ---");
+            }
+        }
     }
 
     public void reload() {

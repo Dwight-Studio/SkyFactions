@@ -28,32 +28,6 @@ public class Faction {
         this.territory = territory;
     }
 
-    public void save(boolean isNew) {
-        if (isNew) {
-            List<String> factionsUUIDs = Config.factionsConfig_getStringList("activeFactions");
-            factionsUUIDs.add(this.uuid.toString());
-            Config.factionsConfig_set("activeFactions", factionsUUIDs);
-        }
-
-        Config.factionsConfig_set("factions." + uuid.toString() + "name", name);
-
-        Config.factionsConfig_set("factions." + uuid.toString() + ".reputationPoints", reputationPoints);
-
-        Config.factionsConfig_set("factions." + uuid.toString() + ".influencePoints", influencePoints);
-
-        Config.factionsConfig_set("factions." + uuid.toString() + ".chief", chief.toString());
-
-        Config.factionsConfig_set("factions." + uuid.toString() + ".territory", territory.getUUID());
-
-        for (UUID off : officers) {
-            Config.factionsConfig_set("factions." + uuid.toString() + ".officers", off.toString());
-        }
-
-        for (UUID mem : members) {
-            Config.factionsConfig_set("factions." + uuid.toString() + ".members", mem.toString());
-        }
-    }
-
     public UUID getUUID() {
         return uuid;
     }

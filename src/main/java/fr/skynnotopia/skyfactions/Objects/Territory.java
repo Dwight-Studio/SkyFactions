@@ -24,31 +24,6 @@ public class Territory {
         this.vault = vault;
     }
 
-    public void save(boolean isNew) {
-        if (isNew) {
-            List<String> territoriesUUIDs = Config.factionsConfig_getStringList("activeTerritories");
-            territoriesUUIDs.add(this.uuid.toString());
-            Config.factionsConfig_set("activeTerritories", territoriesUUIDs);
-        }
-
-        Config.territoriesConfig_set("territories." + uuid.toString() + ".base.world", base.getWorld().getUID());
-        Config.territoriesConfig_set("territories." + uuid.toString() + ".base.x", base.getBlockX());
-        Config.territoriesConfig_set("territories." + uuid.toString() + ".base.y", base.getBlockY());
-        Config.territoriesConfig_set("territories." + uuid.toString() + ".base.z", base.getBlockZ());
-
-        Config.territoriesConfig_set("territories." + uuid.toString() + ".vault.world", vault.getWorld().getUID());
-        Config.territoriesConfig_set("territories." + uuid.toString() + ".vault.x", vault.getBlockX());
-        Config.territoriesConfig_set("territories." + uuid.toString() + ".vault.y", vault.getBlockY());
-        Config.territoriesConfig_set("territories." + uuid.toString() + ".vault.z", vault.getBlockZ());
-
-        Config.territoriesConfig_set("territories." + uuid.toString() + ".lastChunkNumber", chunks.size());
-
-        for (TerritoryChunk ch : chunks) {
-            Config.territoriesConfig_set("territories." + uuid.toString() + ".chunks." + ch.getNumber() + ".x", ch.getChunk().getX());
-            Config.territoriesConfig_set("territories." + uuid.toString() + ".chunks." + ch.getNumber() + ".z", ch.getChunk().getZ());
-        }
-    }
-
     public List<TerritoryChunk> getChunks() {
         return chunks;
     }
