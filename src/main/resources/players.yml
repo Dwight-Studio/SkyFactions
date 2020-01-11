@@ -1,6 +1,6 @@
 #SkyFactions Config File
 #--- Don't touch ---
-activePlayers: 0
+activePlayers: []
 #--- Don't touch ---
 
 # Players informations

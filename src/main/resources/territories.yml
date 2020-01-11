@@ -1,6 +1,6 @@
 #SkyFactions Config File
 #--- Don't touch ---
-activeTerritories: 0
+activeTerritories: []
 #--- Don't touch ---
 
 # Territories informations

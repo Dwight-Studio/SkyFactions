@@ -19,7 +19,7 @@ public class Territory {
     public Territory(UUID uuid, List<TerritoryChunk> chunks, int lastChunkNumber, Location base, Location vault) {
         this.uuid = uuid;
         this.chunks = chunks;
-        this.lastChunkNumber = lastChunkNumber;
+        this.lastChunkNumber = 1;
         this.base = base;
         this.vault = vault;
     }
@@ -50,5 +50,13 @@ public class Territory {
 
     public void setVault(Location vault) {
         this.vault = vault;
+    }
+
+    public void upgrade() {
+
+    }
+
+    public void downgrade() {
+
     }
 }

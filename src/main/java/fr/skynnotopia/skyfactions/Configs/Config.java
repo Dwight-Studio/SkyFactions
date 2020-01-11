@@ -4,10 +4,10 @@ import org.bukkit.Bukkit;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Set;
 import java.util.logging.Level;
 
 import static fr.skynnotopia.skyfactions.Main.getPlugin;
@@ -46,6 +46,10 @@ public class Config {
         return getPlugin().getConfig().getStringList(s);
     }
 
+    public static Set<String> defaultConfigs_getConfigSections(String s) throws NullPointerException{
+        return getPlugin().getConfig().getConfigurationSection(s).getKeys(false);
+    }
+
     public static void defaultConfigs_set(String s, Object o) throws NullPointerException {
         getPlugin().getConfig().set(s, o);
         getPlugin().saveConfig();
@@ -69,9 +73,13 @@ public class Config {
         return factionsConfig.getStringList(s);
     }
 
-    public static void factionsConfig_set(String s, Object o) throws NullPointerException {
+    public static Set<String> factionsConfig_getConfigSections(String s) throws NullPointerException{
+        return factionsConfig.getConfigurationSection(s).getKeys(false);
+    }
+
+    public static void factionsConfig_set(String s, Object o) throws NullPointerException, IOException {
         factionsConfig.set(s, o);
-        getPlugin().saveConfig();
+        factionsConfig.save(factionsConfigFile);
     }
 
     // Territories
@@ -92,9 +100,13 @@ public class Config {
         return territoriesConfig.getStringList(s);
     }
 
-    public static void territoriesConfig_set(String s, Object o) throws NullPointerException {
+    public static Set<String> territoriesConfig_getConfigSections(String s) throws NullPointerException{
+        return territoriesConfig.getConfigurationSection(s).getKeys(false);
+    }
+
+    public static void territoriesConfig_set(String s, Object o) throws NullPointerException, IOException {
         territoriesConfig.set(s, o);
-        getPlugin().saveConfig();
+        territoriesConfig.save(territoriesConfigFile);
     }
     
     // Players
@@ -115,9 +127,13 @@ public class Config {
         return playersConfig.getStringList(s);
     }
 
-    public static void playersConfig_set(String s, Object o) throws NullPointerException {
+    public static Set<String> playersConfig_getConfigSections(String s) throws NullPointerException{
+        return playersConfig.getConfigurationSection(s).getKeys(false);
+    }
+
+    public static void playersConfig_set(String s, Object o) throws NullPointerException, IOException {
         playersConfig.set(s, o);
-        getPlugin().saveConfig();
+        playersConfig.save(playersConfigFile);
     }
     
     public static boolean reload() {

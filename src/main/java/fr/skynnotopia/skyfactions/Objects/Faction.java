@@ -1,7 +1,5 @@
 package fr.skynnotopia.skyfactions.Objects;
 
-import fr.skynnotopia.skyfactions.Configs.Config;
-
 import java.util.List;
 import java.util.UUID;
 
@@ -9,6 +7,7 @@ public class Faction {
 
     private UUID uuid;
     private String name;
+    private List<Relation> relations;
     private int reputationPoints;
     private int influencePoints;
     private UUID chief;
@@ -17,15 +16,17 @@ public class Faction {
     private Territory territory;
     private boolean isComplete;
 
-    public Faction(UUID uuid, String name, int reputationPoints, int influencePoints, UUID chief, List<UUID> officers, List<UUID> members, Territory territory) {
+    public Faction(UUID uuid, String name, List<Relation> relations, int reputationPoints, int influencePoints, UUID chief, List<UUID> officers, List<UUID> members, Territory territory, boolean isComplete) {
         this.uuid = uuid;
         this.name = name;
+        this.relations = relations;
         this.reputationPoints = reputationPoints;
         this.influencePoints = influencePoints;
         this.chief = chief;
         this.officers = officers;
         this.members = members;
         this.territory = territory;
+        this.isComplete = isComplete;
     }
 
     public UUID getUUID() {
@@ -78,5 +79,13 @@ public class Faction {
 
     public boolean isComplete() {
         return isComplete;
+    }
+
+    public List<Relation> getRelations() {
+        return relations;
+    }
+
+    public void setRelations(List<Relation> relations) {
+        this.relations = relations;
     }
 }

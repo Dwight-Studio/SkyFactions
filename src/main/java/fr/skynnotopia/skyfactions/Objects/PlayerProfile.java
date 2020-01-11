@@ -18,7 +18,6 @@ public class PlayerProfile {
         this.isChief = isChief;
     }
 
-
     public UUID getUUID() {
         return uuid;
     }
@@ -27,7 +26,15 @@ public class PlayerProfile {
         return faction;
     }
 
+    public void setFaction(Faction faction) {
+        this.faction = faction;
+    }
+
     public boolean isChief() {
         return isChief;
+    }
+
+    public void setChief(boolean chief) {
+        isChief = chief;
     }
 }
