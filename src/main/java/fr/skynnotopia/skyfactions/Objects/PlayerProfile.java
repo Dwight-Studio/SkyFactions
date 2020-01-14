@@ -1,9 +1,8 @@
 package fr.skynnotopia.skyfactions.Objects;
 
-import fr.skynnotopia.skyfactions.Configs.Config;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import java.util.List;
 import java.util.UUID;
 
 public class PlayerProfile {
@@ -11,11 +10,13 @@ public class PlayerProfile {
     private UUID uuid;
     private Faction faction;
     private boolean isChief;
+    private boolean isOfficer;
 
-    public PlayerProfile(UUID uuid, Faction faction, boolean isChief) {
+    public PlayerProfile(UUID uuid, Faction faction, boolean isChief, boolean isOfficer) {
         this.uuid = uuid;
         this.faction = faction;
         this.isChief = isChief;
+        this.isOfficer = isOfficer;
     }
 
     public UUID getUUID() {
@@ -36,5 +37,17 @@ public class PlayerProfile {
 
     public void setChief(boolean chief) {
         isChief = chief;
+    }
+
+    public boolean isOfficer() {
+        return isOfficer;
+    }
+
+    public void setOfficer(boolean officer) {
+        isOfficer = officer;
+    }
+
+    public Player getPlayer() {
+        return Bukkit.getPlayer(uuid);
     }
 }

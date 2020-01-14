@@ -17,28 +17,28 @@ public class Loader {
     private int retryNumber = 0;
     public static Config config;
 
-    public Territory getTerritory(UUID uuid) {
-        for (Territory t : territories) {
-            if (t.getUUID().equals(uuid)) {
-                return t;
+    public Territory getTerritory(UUID territoryUUID) {
+        for (Territory territory : territories) {
+            if (territory.getUUID().equals(territoryUUID)) {
+                return territory;
             }
         }
         return null;
     }
 
-    public Faction getFaction(UUID uuid) {
-        for (Faction f : factions) {
-            if (f.getUUID().equals(uuid)) {
-                return f;
+    public Faction getFaction(UUID territoryUUID) {
+        for (Faction faction : factions) {
+            if (faction.getUUID().equals(territoryUUID)) {
+                return faction;
             }
         }
         return null;
     }
 
-    public PlayerProfile getPlayerProfile(UUID uuid) {
-        for (PlayerProfile p : players) {
-            if (p.getUUID().equals(uuid)) {
-                return p;
+    public PlayerProfile getPlayerProfile(UUID territoryUUID) {
+        for (PlayerProfile playerProfile : players) {
+            if (playerProfile.getUUID().equals(territoryUUID)) {
+                return playerProfile;
             }
         }
         return null;
@@ -59,14 +59,14 @@ public class Loader {
             Bukkit.getLogger().log(Level.INFO, logPrefix + "Step 1 : Loading Territories");
             List<String> territoriesUUIDs = Config.territoriesConfig_getStringList("activeTerritories");
             for (int i = 0; i != territoriesUUIDs.size(); i++) {
-                String uuid = territoriesUUIDs.get(i);
+                String territoryUUID = territoriesUUIDs.get(i);
                 Location base;
                 try {
                     base = new Location(Bukkit.getWorld(UUID.fromString(
-                            Config.territoriesConfig_getString("territories." + uuid + ".base.world"))),
-                            (long) Config.territoriesConfig_getInt("territories." + uuid + ".base.x"),
-                            (long) Config.territoriesConfig_getInt("territories." + uuid + ".base.y"),
-                            (long) Config.territoriesConfig_getInt("territories." + uuid + ".base.z")
+                            Config.territoriesConfig_getString("territories." + territoryUUID + ".base.world"))),
+                            (long) Config.territoriesConfig_getInt("territories." + territoryUUID + ".base.x"),
+                            (long) Config.territoriesConfig_getInt("territories." + territoryUUID + ".base.y"),
+                            (long) Config.territoriesConfig_getInt("territories." + territoryUUID + ".base.z")
                     );
                 } catch (NullPointerException e) {
                     base = null;
@@ -74,28 +74,28 @@ public class Loader {
 
                 Location vault;
                 try {
-                vault = new Location(Bukkit.getWorld(UUID.fromString(Config.territoriesConfig_getString("territories." + uuid + ".vault.world"))),
-                        (long) Config.territoriesConfig_getInt("territories." + uuid + ".vault.x"),
-                        (long) Config.territoriesConfig_getInt("territories." + uuid + ".vault.y"),
-                        (long) Config.territoriesConfig_getInt("territories." + uuid + ".vault.z"));
+                vault = new Location(Bukkit.getWorld(UUID.fromString(Config.territoriesConfig_getString("territories." + territoryUUID + ".vault.world"))),
+                        (long) Config.territoriesConfig_getInt("territories." + territoryUUID + ".vault.x"),
+                        (long) Config.territoriesConfig_getInt("territories." + territoryUUID + ".vault.y"),
+                        (long) Config.territoriesConfig_getInt("territories." + territoryUUID + ".vault.z"));
                 } catch (NullPointerException e) {
                     vault = null;
                 }
 
-                int lastChunkNumber = Config.territoriesConfig_getInt("territories." + uuid + ".lastChunkNumber");
+                int lastChunkNumber = Config.territoriesConfig_getInt("territories." + territoryUUID + ".lastChunkNumber");
 
                 List<TerritoryChunk> chunks = new ArrayList<TerritoryChunk>();
 
                 for (int e = 0 ; lastChunkNumber != e; e++) {
                     chunks.add(new TerritoryChunk(base.getWorld().getChunkAt(
-                            Config.territoriesConfig_getInt("territories." + uuid + ".chunks." + e + ".x"),
-                            Config.territoriesConfig_getInt("territories." + uuid + ".chunks." + e + ".z"))
+                            Config.territoriesConfig_getInt("territories." + territoryUUID + ".chunks." + e + ".x"),
+                            Config.territoriesConfig_getInt("territories." + territoryUUID + ".chunks." + e + ".z"))
                             ,e));
                 }
 
-                territories.add(new Territory(UUID.fromString(uuid), chunks, lastChunkNumber, base, vault));
+                territories.add(new Territory(UUID.fromString(territoryUUID), chunks, lastChunkNumber, base, vault));
 
-                Bukkit.getLogger().log(Level.INFO, logPrefix + uuid + " has been successfully loaded. (" + (i+1) + "/" + territoriesUUIDs.size() + ")");
+                Bukkit.getLogger().log(Level.INFO, logPrefix + territoryUUID + " has been successfully loaded. (" + (i+1) + "/" + territoriesUUIDs.size() + ")");
 
             }
 
@@ -103,19 +103,19 @@ public class Loader {
             Bukkit.getLogger().log(Level.INFO, logPrefix + "Step 2 : Loading Factions");
             List<String> factionsUUIDs = Config.factionsConfig_getStringList("activeFactions");
             for (int i = 0; i != factionsUUIDs.size(); i++) {
-                String uuid = factionsUUIDs.get(i);
-                String name = Config.factionsConfig_getString("factions." + uuid + ".name");
-                int reputationPoints = Config.factionsConfig_getInt("factions." + uuid + ".reputationPoints");
-                int influencePoints  = Config.factionsConfig_getInt("factions." + uuid + ".influencePoints");
-                UUID chief = UUID.fromString(Config.factionsConfig_getString("factions." + uuid + ".chief"));
+                String territoryUUID = factionsUUIDs.get(i);
+                String name = Config.factionsConfig_getString("factions." + territoryUUID + ".name");
+                int reputationPoints = Config.factionsConfig_getInt("factions." + territoryUUID + ".reputationPoints");
+                int influencePoints  = Config.factionsConfig_getInt("factions." + territoryUUID + ".influencePoints");
+                UUID chief = UUID.fromString(Config.factionsConfig_getString("factions." + territoryUUID + ".chief"));
 
                 List<UUID> officers = new ArrayList<UUID>();
-                for (String u : Config.factionsConfig_getStringList("factions." + uuid + ".officers")) {
+                for (String u : Config.factionsConfig_getStringList("factions." + territoryUUID + ".officers")) {
                     officers.add(UUID.fromString(u));
                 }
 
                 List<UUID> members = new ArrayList<UUID>();
-                for (String u : Config.factionsConfig_getStringList("factions." + uuid + ".members")) {
+                for (String u : Config.factionsConfig_getStringList("factions." + territoryUUID + ".members")) {
                     officers.add(UUID.fromString(u));
                 }
 
@@ -123,15 +123,17 @@ public class Loader {
                 Territory territory;
 
                 try {
-                    territory = getTerritory(UUID.fromString(Config.factionsConfig_getString("factions." + uuid + ".territory")));
+                    territory = getTerritory(UUID.fromString(Config.factionsConfig_getString("factions." + territoryUUID + ".territory")));
                 } catch (NullPointerException e) {
                     territory = null;
                 }
 
+                boolean isComplete = Config.factionsConfig_getBoolean("factions." + territoryUUID + ".isComplete");
+                boolean isOpen = Config.factionsConfig_getBoolean("factions." + territoryUUID + ".isOpen");
 
-                factions.add(new Faction(UUID.fromString(uuid), name, null, reputationPoints, influencePoints, chief, officers, members, territory, false));
+                factions.add(new Faction(UUID.fromString(territoryUUID), name, null, reputationPoints, influencePoints, chief, officers, members, territory, isComplete, isOpen));
 
-                Bukkit.getLogger().log(Level.INFO, logPrefix + uuid + " has been successfully loaded. (" + (i+1) + "/" + factionsUUIDs.size() + ")");
+                Bukkit.getLogger().log(Level.INFO, logPrefix + territoryUUID + " has been successfully loaded. (" + (i+1) + "/" + factionsUUIDs.size() + ")");
             }
 
             // Relations
@@ -159,7 +161,7 @@ public class Loader {
                 } catch (NullPointerException e) {
                     relations = null;
                 }
-                Faction f = new Faction(faction.getUUID(),faction.getName(),relations,faction.getReputationPoints(),faction.getInfluencePoints(),faction.getChief(),faction.getOfficers(),faction.getMembers(),faction.getTerritory(),faction.isComplete());
+                Faction f = new Faction(faction.getUUID(),faction.getName(),relations,faction.getReputationPoints(),faction.getInfluencePoints(),faction.getChief(),faction.getOfficers(),faction.getMembers(),faction.getTerritory(),faction.isComplete(), false);
                 factions.remove(faction);
                 factions.add(f);
                 Bukkit.getLogger().log(Level.INFO, logPrefix + "Relations of " + f.getUUID().toString() + " has been successfully loaded.");
@@ -169,17 +171,18 @@ public class Loader {
             Bukkit.getLogger().log(Level.INFO, logPrefix + "Step 4 : Loading Players");
             List<String> playersUUID = Config.playersConfig_getStringList("activePlayers");
             for (int i = 0; i != playersUUID.size(); i++) {
-                String uuid = playersUUID.get(i);
-                boolean isChief = Config.playersConfig_getBoolean("players." + uuid + ".isChief");
+                String playerUUID = playersUUID.get(i);
+                boolean isChief = Config.playersConfig_getBoolean("players." + playerUUID + ".isChief");
+                boolean isOfficer = Config.playersConfig_getBoolean("players." + playerUUID + ".isOfficer");
                 Faction faction;
                 try {
-                    faction = getFaction(UUID.fromString(Config.playersConfig_getString("players." + uuid + ".faction")));
+                    faction = getFaction(UUID.fromString(Config.playersConfig_getString("players." + playerUUID + ".faction")));
                 } catch (NullPointerException e) {
                     faction = null;
                 }
-                players.add(new PlayerProfile(UUID.fromString(uuid), faction, isChief));
+                players.add(new PlayerProfile(UUID.fromString(playerUUID), faction, isChief, isOfficer));
 
-                Bukkit.getLogger().log(Level.INFO, logPrefix + uuid + " has been successfully loaded. (" + (i+1) + "/" + playersUUID.size() + ")");
+                Bukkit.getLogger().log(Level.INFO, logPrefix + playerUUID + " has been successfully loaded. (" + (i+1) + "/" + playersUUID.size() + ")");
             }
 
             Bukkit.getLogger().log(Level.INFO, logPrefix + "Done.");
@@ -202,84 +205,88 @@ public class Loader {
             // Territories
             Bukkit.getLogger().log(Level.INFO, logPrefix + "Step 1 : Saving Territories");
             List<String> activeTerritories = new ArrayList<String>();
-            for (Territory terr : territories) {
-                activeTerritories.add(terr.getUUID().toString());
+            for (Territory territory : territories) {
+                activeTerritories.add(territory.getUUID().toString());
 
-                if (terr.getBase() != null) {
-                    Config.territoriesConfig_set("territories." + terr.getUUID().toString() + ".base.world", terr.getBase().getWorld().getUID().toString());
-                    Config.territoriesConfig_set("territories." + terr.getUUID().toString() + ".base.x", terr.getBase().getBlockX());
-                    Config.territoriesConfig_set("territories." + terr.getUUID().toString() + ".base.y", terr.getBase().getBlockY());
-                    Config.territoriesConfig_set("territories." + terr.getUUID().toString() + ".base.z", terr.getBase().getBlockZ());
+                if (territory.getBase() != null) {
+                    Config.territoriesConfig_set("territories." + territory.getUUID().toString() + ".base.world", territory.getBase().getWorld().getUID().toString());
+                    Config.territoriesConfig_set("territories." + territory.getUUID().toString() + ".base.x", territory.getBase().getBlockX());
+                    Config.territoriesConfig_set("territories." + territory.getUUID().toString() + ".base.y", territory.getBase().getBlockY());
+                    Config.territoriesConfig_set("territories." + territory.getUUID().toString() + ".base.z", territory.getBase().getBlockZ());
                 }
 
-                if (terr.getVault() != null) {
-                    Config.territoriesConfig_set("territories." + terr.getUUID().toString() + ".vault.world", terr.getVault().getWorld().getUID().toString());
-                    Config.territoriesConfig_set("territories." + terr.getUUID().toString() + ".vault.x", terr.getVault().getBlockX());
-                    Config.territoriesConfig_set("territories." + terr.getUUID().toString() + ".vault.y", terr.getVault().getBlockY());
-                    Config.territoriesConfig_set("territories." + terr.getUUID().toString() + ".vault.z", terr.getVault().getBlockZ());
+                if (territory.getVault() != null) {
+                    Config.territoriesConfig_set("territories." + territory.getUUID().toString() + ".vault.world", territory.getVault().getWorld().getUID().toString());
+                    Config.territoriesConfig_set("territories." + territory.getUUID().toString() + ".vault.x", territory.getVault().getBlockX());
+                    Config.territoriesConfig_set("territories." + territory.getUUID().toString() + ".vault.y", territory.getVault().getBlockY());
+                    Config.territoriesConfig_set("territories." + territory.getUUID().toString() + ".vault.z", territory.getVault().getBlockZ());
                 }
 
-                if (terr.getChunks().size() != 0) {
-                    Config.territoriesConfig_set("territories." + terr.getUUID().toString() + ".lastChunkNumber", terr.getChunks().size());
+                if (territory.getChunks().size() != 0) {
+                    Config.territoriesConfig_set("territories." + territory.getUUID().toString() + ".lastChunkNumber", territory.getChunks().size());
                 }
 
-                for (TerritoryChunk ch : terr.getChunks()) {
-                    Config.territoriesConfig_set("territories." + terr.getUUID().toString() + ".chunks." + ch.getNumber() + ".x", ch.getChunk().getX());
-                    Config.territoriesConfig_set("territories." + terr.getUUID().toString() + ".chunks." + ch.getNumber() + ".z", ch.getChunk().getZ());
+                for (TerritoryChunk ch : territory.getChunks()) {
+                    Config.territoriesConfig_set("territories." + territory.getUUID().toString() + ".chunks." + ch.getNumber() + ".x", ch.getChunk().getX());
+                    Config.territoriesConfig_set("territories." + territory.getUUID().toString() + ".chunks." + ch.getNumber() + ".z", ch.getChunk().getZ());
                 }
-                Bukkit.getLogger().log(Level.INFO, logPrefix + terr.getUUID().toString() + " has been successfully saved.");
+                Bukkit.getLogger().log(Level.INFO, logPrefix + territory.getUUID().toString() + " has been successfully saved.");
             }
             Config.territoriesConfig_set("activeTerritories", activeTerritories);
 
             // Factions
             Bukkit.getLogger().log(Level.INFO, logPrefix + "Step 2 : Saving Factions");
             List<String> activeFactions = new ArrayList<String>();
-            for (Faction fac : factions) {
-                activeFactions.add(fac.getUUID().toString());
+            for (Faction faction : factions) {
+                activeFactions.add(faction.getUUID().toString());
 
-                Config.factionsConfig_set("factions." + fac.getUUID().toString() + ".name", fac.getName());
+                Config.factionsConfig_set("factions." + faction.getUUID().toString() + ".name", faction.getName());
 
-                Config.factionsConfig_set("factions." + fac.getUUID().toString() + ".reputationPoints", fac.getReputationPoints());
+                Config.factionsConfig_set("factions." + faction.getUUID().toString() + ".reputationPoints", faction.getReputationPoints());
 
-                Config.factionsConfig_set("factions." + fac.getUUID().toString() + ".influencePoints", fac.getInfluencePoints());
+                Config.factionsConfig_set("factions." + faction.getUUID().toString() + ".influencePoints", faction.getInfluencePoints());
 
-                Config.factionsConfig_set("factions." + fac.getUUID().toString() + ".chief", fac.getChief().toString());
+                Config.factionsConfig_set("factions." + faction.getUUID().toString() + ".chief", faction.getChief().toString());
 
-                if (fac.getTerritory() != null) {
-                    Config.factionsConfig_set("factions." + fac.getUUID().toString() + ".territory", fac.getTerritory().getUUID().toString());
-            }
+                if (faction.getTerritory() != null) {
+                    Config.factionsConfig_set("factions." + faction.getUUID().toString() + ".territory", faction.getTerritory().getUUID().toString());
+                }
 
                 List<String> officers = new ArrayList<String>();
-                for (UUID off : fac.getOfficers()) {
+                for (UUID off : faction.getOfficers()) {
                     officers.add(off.toString());
                 }
 
-                Config.factionsConfig_set("factions." + fac.getUUID().toString() + ".officers", officers);
+                Config.factionsConfig_set("factions." + faction.getUUID().toString() + ".officers", officers);
+
+                Config.factionsConfig_set("factions." + faction.getUUID().toString() + ".isComplete", faction.isComplete());
+                Config.factionsConfig_set("factions." + faction.getUUID().toString() + ".isOpen", faction.isOpen());
 
                 List<String> members = new ArrayList<String>();
-                for (UUID mem : fac.getMembers()) {
+                for (UUID mem : faction.getMembers()) {
                     members.add(mem.toString());
                 }
 
-                Config.factionsConfig_set("factions." + fac.getUUID().toString() + ".members", members);
-
-                for (Relation relation : fac.getRelations()) {
-                    switch (relation.getRelation()) {
-                        case ALLY:
-                            Config.factionsConfig_set("factions." + fac.getUUID().toString() + ".relations." + fac.getUUID().toString() + ".type", 2);
-                            Config.factionsConfig_set("factions." + fac.getUUID().toString() + ".relations." + fac.getUUID().toString() + ".confirmed", relation.isConfirmed());
-                            Config.factionsConfig_set("factions." + fac.getUUID().toString() + ".relations." + fac.getUUID().toString() + ".faction", relation.getFaction().getUUID().toString());
-                            break;
-                        case ENEMY:
-                            Config.factionsConfig_set("factions." + fac.getUUID().toString() + ".relations." + fac.getUUID().toString() + ".type", 1);
-                            Config.factionsConfig_set("factions." + fac.getUUID().toString() + ".relations." + fac.getUUID().toString() + ".confirmed", relation.isConfirmed());
-                            Config.factionsConfig_set("factions." + fac.getUUID().toString() + ".relations." + fac.getUUID().toString() + ".faction", relation.getFaction().getUUID().toString());
-                            break;
-                        case NEUTRAL:
-                            break;
+                Config.factionsConfig_set("factions." + faction.getUUID().toString() + ".members", members);
+                if (faction.getRelations() != null) {
+                    for (Relation relation : faction.getRelations()) {
+                        switch (relation.getRelation()) {
+                            case ALLY:
+                                Config.factionsConfig_set("factions." + faction.getUUID().toString() + ".relations." + faction.getUUID().toString() + ".type", 2);
+                                Config.factionsConfig_set("factions." + faction.getUUID().toString() + ".relations." + faction.getUUID().toString() + ".confirmed", relation.isConfirmed());
+                                Config.factionsConfig_set("factions." + faction.getUUID().toString() + ".relations." + faction.getUUID().toString() + ".faction", relation.getFaction().getUUID().toString());
+                                break;
+                            case ENEMY:
+                                Config.factionsConfig_set("factions." + faction.getUUID().toString() + ".relations." + faction.getUUID().toString() + ".type", 1);
+                                Config.factionsConfig_set("factions." + faction.getUUID().toString() + ".relations." + faction.getUUID().toString() + ".confirmed", relation.isConfirmed());
+                                Config.factionsConfig_set("factions." + faction.getUUID().toString() + ".relations." + faction.getUUID().toString() + ".faction", relation.getFaction().getUUID().toString());
+                                break;
+                            case NEUTRAL:
+                                break;
+                        }
                     }
+                    Bukkit.getLogger().log(Level.INFO, logPrefix + faction.getUUID().toString() + " has been successfully saved.");
                 }
-                Bukkit.getLogger().log(Level.INFO, logPrefix + fac.getUUID().toString() + " has been successfully saved.");
             }
 
                 Config.factionsConfig_set("activeFactions", activeFactions);
@@ -287,18 +294,17 @@ public class Loader {
             // PlayerProfile
             Bukkit.getLogger().log(Level.INFO, logPrefix + "Step 3 : Saving Players");
             List<String> activePlayers = new ArrayList<String>();
-            for (PlayerProfile pl : players) {
-                activePlayers.add(pl.getUUID().toString());
+            for (PlayerProfile playerProfile : players) {
+                activePlayers.add(playerProfile.getUUID().toString());
 
-                activePlayers.add(pl.getUUID().toString());
-
-                if (pl.getFaction() != null) {
-                    Config.playersConfig_set("players." + pl.getUUID().toString() + ".faction", pl.getFaction().getUUID().toString());
+                if (playerProfile.getFaction() != null) {
+                    Config.playersConfig_set("players." + playerProfile.getUUID().toString() + ".faction", playerProfile.getFaction().getUUID().toString());
                 }
 
-                Config.playersConfig_set("players." + pl.getUUID().toString() + ".isChief", pl.isChief());
+                Config.playersConfig_set("players." + playerProfile.getUUID().toString() + ".isChief", playerProfile.isChief());
+                Config.playersConfig_set("players." + playerProfile.getUUID().toString() + ".isOfficer", playerProfile.isOfficer());
 
-                Bukkit.getLogger().log(Level.INFO, logPrefix + pl.getUUID().toString() + " has been successfully saved.");
+                Bukkit.getLogger().log(Level.INFO, logPrefix + playerProfile.getUUID().toString() + " has been successfully saved.");
             }
             Config.playersConfig_set("activePlayers", activePlayers);
             Bukkit.getLogger().log(Level.INFO, logPrefix + "--- SkyFaction Configs Loader ---");

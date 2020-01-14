@@ -15,8 +15,9 @@ public class Faction {
     private List<UUID> members;
     private Territory territory;
     private boolean isComplete;
+    private boolean isOpen;
 
-    public Faction(UUID uuid, String name, List<Relation> relations, int reputationPoints, int influencePoints, UUID chief, List<UUID> officers, List<UUID> members, Territory territory, boolean isComplete) {
+    public Faction(UUID uuid, String name, List<Relation> relations, int reputationPoints, int influencePoints, UUID chief, List<UUID> officers, List<UUID> members, Territory territory, boolean isComplete, boolean isOpen) {
         this.uuid = uuid;
         this.name = name;
         this.relations = relations;
@@ -27,6 +28,7 @@ public class Faction {
         this.members = members;
         this.territory = territory;
         this.isComplete = isComplete;
+        this.isOpen = isOpen;
     }
 
     public UUID getUUID() {
@@ -87,5 +89,13 @@ public class Faction {
 
     public void setRelations(List<Relation> relations) {
         this.relations = relations;
+    }
+
+    public boolean isOpen() {
+        return isOpen;
+    }
+
+    public void setOpen(boolean open) {
+        isOpen = open;
     }
 }

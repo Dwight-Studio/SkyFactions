@@ -1,5 +1,6 @@
 package fr.skynnotopia.skyfactions;
 
+import brian.menuinterface.MenuListener;
 import fr.skynnotopia.skyfactions.CommandExecutors.CommandSkyFaction;
 import fr.skynnotopia.skyfactions.CommandExecutors.CommandFaction;
 import fr.skynnotopia.skyfactions.CommandExecutors.CommandFactions;
@@ -24,6 +25,7 @@ public final class Main extends JavaPlugin {
     public void onEnable() {
 
         plugin = this;
+        MenuListener.register(plugin);
 
         // Configs
         loader = new Loader();

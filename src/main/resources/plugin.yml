@@ -4,10 +4,9 @@ main: fr.skynnotopia.skyfactions.Main
 load: POSTWORLD
 api-version: 1.13
 prefix: SkyFactions
-authors: [Deleranax]
+authors: [Deleranax,NonameSL]
 description: Plugin assurant la gestion des factions sur le serveur "Visceral Diplomacy"
 website: https://skynnotopia.yo.fr
-depend: [GUI-API]
 commands:
   faction:
     usage: "/faction"

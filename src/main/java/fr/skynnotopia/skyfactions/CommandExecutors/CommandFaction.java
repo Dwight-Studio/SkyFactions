@@ -1,13 +1,14 @@
 package fr.skynnotopia.skyfactions.CommandExecutors;
 
-import fr.skynnotopia.skyfactions.Actions.JoinFactionAction;
-import fr.skynnotopia.skyfactions.Actions.NewFactionAction;
+import brian.menuinterface.button.DefaultButtons;
+import brian.menuinterface.button.MenuButton;
+import brian.menuinterface.button.PagedButton;
+import brian.menuinterface.events.ButtonClickEvent;
+import brian.menuinterface.types.PagedMenu;
+import brian.menuinterface.types.StandardMenu;
 import fr.skynnotopia.skyfactions.Main;
-import me.lyras.api.gui.link.Link;
-import me.lyras.api.gui.permission.Permission;
-import me.lyras.api.gui.permission.PermissionedPlayer;
-import me.lyras.api.gui.ui.Listing;
-import me.lyras.api.gui.ui.ListingManager;
+import fr.skynnotopia.skyfactions.Objects.ItemBuilder;
+import fr.skynnotopia.skyfactions.Objects.PlayerProfile;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -15,57 +16,47 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
+
+import java.util.function.Consumer;
 
 public class CommandFaction implements CommandExecutor {
 
 
     @Override
     public boolean onCommand(CommandSender csender, Command command, String label, String[] args) {
-        Player sender;
+        PlayerProfile sender;
 
         if (csender instanceof Player) {
-            sender = (Player) csender;
+            sender = Main.loader.getPlayerProfile(((Player) csender).getUniqueId());
         } else {
             return false;
         }
 
-        //Listing
-        Listing listing;
+        // Si le joueur n'a pas de faction
+        if (sender.getFaction() == null) {
+            StandardMenu withoutFactionMenu = StandardMenu.create(3,"Faction : " + ChatColor.AQUA + "Aucune");
 
-        if (Main.loader.getPlayerProfile(sender.getUniqueId()).getFaction() == null) {
-            listing = new Listing(27, "Faction : " + ChatColor.AQUA + "Aucune") {
+            MenuButton button = DefaultButtons.OPEN.getButtonOfItemStack(new ItemBuilder(Material.ARROW).setName(ChatColor.AQUA + "Parcourir les factions").addLoreLine("Obtenir des informations").addLoreLine("ou rejoindre une faction").toItemStack());
+            button.setClickEvent(new Consumer<ButtonClickEvent>() {
                 @Override
-                public void load() {
-                    ItemStack itemStack = new ItemStack(Material.SHIELD);
-                    ItemMeta itemStackMeta = itemStack.getItemMeta();
-                    itemStackMeta.setDisplayName("Rejoindre une faction");
-                    itemStack.setItemMeta(itemStackMeta);
-                    this.set(12, new Link(itemStack, new JoinFactionAction(sender)));
-
-                    ItemStack itemStack2 = new ItemStack(Material.CRAFTING_TABLE);
-                    ItemMeta itemStackMeta2 = itemStack2.getItemMeta();
-                    itemStackMeta2.setDisplayName("Créer une faction");
-                    itemStack2.setItemMeta(itemStackMeta2);
-                    this.set(14, new Link(itemStack2, new NewFactionAction(sender)));
+                public void accept(ButtonClickEvent event) {
+                    event.getWhoClicked().sendMessage("ssss");
                 }
+            });
 
-            };
+            withoutFactionMenu.addButton(button);
+
+            sender.getPlayer().openInventory(withoutFactionMenu.build());
+
+         // Si le joueur à une faction, mais n'est pas chef, ni officier
+        } else if (!sender.isChief() && !sender.isOfficer()) {
+
+        // Si le joueur à une faction, et est officier
+        } else if (!sender.isChief()) {
+
         } else {
-                listing = new Listing(27, "Faction : " + ChatColor.AQUA + Main.loader.getPlayerProfile(sender.getUniqueId()).getFaction().getName()) {
-                    @Override
-                    public void load() {
-                        this.set(12, new Link(new ItemStack(Material.PAPER, 1), new JoinFactionAction(sender)));
-                        this.set(14, new Link(new ItemStack(Material.CRAFTING_TABLE, 1), new NewFactionAction(sender)));
-                    }
 
-                };
         }
-
-        PermissionedPlayer permissioned = new PermissionedPlayer( sender , Permission.CLICK , Permission.CLOSE , Permission.OPEN );
-        ListingManager.bind(listing, permissioned );
-        listing.getOptions().setClosing( true );
-        listing.open();
-        return true;
+    return  true;
     }
 }
