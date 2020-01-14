@@ -54,7 +54,7 @@
                         <configuration>
                             <tasks>
                                 <exec executable="cmd">
-                                    <arg line='start cmd /c "${env.cmdpath}"'/>
+                                    <arg line='start cmd /c "${env.SPIGOT_CMD_PATH}"'/>
                                 </exec>
                             </tasks>
                         </configuration>
