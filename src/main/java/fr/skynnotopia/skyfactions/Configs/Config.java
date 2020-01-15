@@ -24,6 +24,9 @@ public class Config {
     private static File playersConfigFile;
     private static FileConfiguration playersConfig;
 
+    private static File relationsConfigFile;
+    private static FileConfiguration relationsConfig;
+
     public Config() {
         createCustomConfigs();
     }
@@ -80,6 +83,33 @@ public class Config {
     public static void factionsConfig_set(String s, Object o) throws NullPointerException, IOException {
         factionsConfig.set(s, o);
         factionsConfig.save(factionsConfigFile);
+    }
+
+    // Factions
+
+    public static boolean relationsConfig_getBoolean(String s) throws NullPointerException {
+        return relationsConfig.getBoolean(s);
+    }
+
+    public static int relationsConfig_getInt(String s) throws NullPointerException {
+        return relationsConfig.getInt(s);
+    }
+
+    public static String relationsConfig_getString(String s) throws NullPointerException {
+        return relationsConfig.getString(s);
+    }
+
+    public static java.util.List<String> relationsConfig_getStringList(String s) throws NullPointerException {
+        return relationsConfig.getStringList(s);
+    }
+
+    public static Set<String> relationsConfig_getConfigSections(String s) throws NullPointerException{
+        return relationsConfig.getConfigurationSection(s).getKeys(false);
+    }
+
+    public static void relationsConfig_set(String s, Object o) throws NullPointerException, IOException {
+        relationsConfig.set(s, o);
+        relationsConfig.save(relationsConfigFile);
     }
 
     // Territories
@@ -162,6 +192,12 @@ public class Config {
             getPlugin().saveResource("factions.yml", false);
         }
 
+        relationsConfigFile = new File(getPlugin().getDataFolder(), "relations.yml");
+        if (!relationsConfigFile.exists()) {
+            relationsConfigFile.getParentFile().mkdirs();
+            getPlugin().saveResource("relations.yml", false);
+        }
+
         playersConfigFile = new File(getPlugin().getDataFolder(), "players.yml");
         if (!playersConfigFile.exists()) {
             playersConfigFile.getParentFile().mkdirs();
@@ -170,12 +206,14 @@ public class Config {
 
         territoriesConfig = new YamlConfiguration();
         factionsConfig = new YamlConfiguration();
+        relationsConfig = new YamlConfiguration();
         playersConfig = new YamlConfiguration();
 
         try {
             playersConfig.load(playersConfigFile);
             territoriesConfig.load(territoriesConfigFile);
             factionsConfig.load(factionsConfigFile);
+            relationsConfig.load(relationsConfigFile);
         } catch (IOException | InvalidConfigurationException e) {
             e.printStackTrace();
         }

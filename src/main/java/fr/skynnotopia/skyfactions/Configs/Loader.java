@@ -26,18 +26,18 @@ public class Loader {
         return null;
     }
 
-    public Faction getFaction(UUID territoryUUID) {
+    public Faction getFaction(UUID factionUUID) {
         for (Faction faction : factions) {
-            if (faction.getUUID().equals(territoryUUID)) {
+            if (faction.getUUID().equals(factionUUID)) {
                 return faction;
             }
         }
         return null;
     }
 
-    public PlayerProfile getPlayerProfile(UUID territoryUUID) {
+    public PlayerProfile getPlayerProfile(UUID playerUUID) {
         for (PlayerProfile playerProfile : players) {
-            if (playerProfile.getUUID().equals(territoryUUID)) {
+            if (playerProfile.getUUID().equals(playerUUID)) {
                 return playerProfile;
             }
         }
@@ -47,6 +47,7 @@ public class Loader {
     public List<Territory> territories = new ArrayList<Territory>();
     public List<Faction> factions = new ArrayList<Faction>();
     public List<PlayerProfile> players = new ArrayList<PlayerProfile>();
+    public List<Relation> relations = new ArrayList<Relation>();
 
     public Loader() {
         config = new Config();
@@ -138,33 +139,29 @@ public class Loader {
 
             // Relations
             Bukkit.getLogger().log(Level.INFO, logPrefix + "Step 3 : Loading Relations");
-            List<Relation> relations = new ArrayList<Relation>();
-            List<Faction> tempFactions = new ArrayList<Faction>();
-            tempFactions.addAll(factions);
-            for (Faction faction : tempFactions) {
-                try {
-                    for (String s : Config.factionsConfig_getConfigSections("factions." + faction.getUUID().toString() + ".relations")) {
-                        Relations out;
-                        switch (Config.factionsConfig_getInt("factions." + faction.getUUID().toString() + ".relations." + s + ".type")) {
-                            default:
-                                out = Relations.NEUTRAL;
-                                break;
-                            case 1:
-                                out = Relations.ENEMY;
-                                break;
-                            case 2:
-                                out = Relations.ALLY;
-                                break;
-                        }
-                        relations.add(new Relation(out, Config.factionsConfig_getBoolean("factions." + faction.getUUID().toString() + ".relations." + s + ".confirmed"), getFaction(UUID.fromString(s))));
-                    }
-                } catch (NullPointerException e) {
-                    relations = null;
+            List<String> relationsUUIDs = Config.factionsConfig_getStringList("activeRelations");
+            for (int i = 0; i != relationsUUIDs.size(); i++) {
+                String relationUUID = relationsUUIDs.get(i);
+                Relations type;
+                switch (Config.relationsConfig_getInt("relations." + relationUUID + ".type")) {
+                    case 0:
+                        type = Relations.NEUTRAL;
+                        break;
+                    case 1:
+                        type = Relations.ENEMY;
+                        break;
+                    case 2:
+                        type = Relations.ALLY;
+                        break;
                 }
-                Faction f = new Faction(faction.getUUID(),faction.getName(),relations,faction.getReputationPoints(),faction.getInfluencePoints(),faction.getChief(),faction.getOfficers(),faction.getMembers(),faction.getTerritory(),faction.isComplete(), false);
-                factions.remove(faction);
-                factions.add(f);
-                Bukkit.getLogger().log(Level.INFO, logPrefix + "Relations of " + f.getUUID().toString() + " successfully loaded.");
+
+                Faction firstFaction = getFaction(UUID.fromString(Config.relationsConfig_getString("relations." + relationUUID + ".first.faction")));
+                boolean firstConfirmed = Config.relationsConfig_getBoolean("relations." + relationUUID + ".first.isConfirmed");
+                Faction secondFaction = getFaction(UUID.fromString(Config.relationsConfig_getString("relations." + relationUUID + ".second.faction")));
+                boolean secondConfirmed = Config.relationsConfig_getBoolean("relations." + relationUUID + ".second.isConfirmed");
+                
+                relations.add(new Relation(UUID.fromString(relationUUID),Relations.ALLY,new FactionCouple(firstFaction,firstConfirmed,secondFaction,secondConfirmed)));
+                Bukkit.getLogger().log(Level.INFO, logPrefix + "Relation " + relationUUID + " successfully loaded.");
             }
 
             // Players
@@ -232,6 +229,7 @@ public class Loader {
                 }
                 Bukkit.getLogger().log(Level.INFO, logPrefix + territory.getUUID().toString() + " successfully saved.");
             }
+
             Config.territoriesConfig_set("activeTerritories", activeTerritories);
 
             // Factions
@@ -268,31 +266,36 @@ public class Loader {
                 }
 
                 Config.factionsConfig_set("factions." + faction.getUUID().toString() + ".members", members);
-                if (faction.getRelations() != null) {
-                    for (Relation relation : faction.getRelations()) {
-                        switch (relation.getRelation()) {
-                            case ALLY:
-                                Config.factionsConfig_set("factions." + faction.getUUID().toString() + ".relations." + faction.getUUID().toString() + ".type", 2);
-                                Config.factionsConfig_set("factions." + faction.getUUID().toString() + ".relations." + faction.getUUID().toString() + ".confirmed", relation.isConfirmed());
-                                Config.factionsConfig_set("factions." + faction.getUUID().toString() + ".relations." + faction.getUUID().toString() + ".faction", relation.getFaction().getUUID().toString());
-                                break;
-                            case ENEMY:
-                                Config.factionsConfig_set("factions." + faction.getUUID().toString() + ".relations." + faction.getUUID().toString() + ".type", 1);
-                                Config.factionsConfig_set("factions." + faction.getUUID().toString() + ".relations." + faction.getUUID().toString() + ".confirmed", relation.isConfirmed());
-                                Config.factionsConfig_set("factions." + faction.getUUID().toString() + ".relations." + faction.getUUID().toString() + ".faction", relation.getFaction().getUUID().toString());
-                                break;
-                            case NEUTRAL:
-                                break;
-                        }
-                    }
-                    Bukkit.getLogger().log(Level.INFO, logPrefix + faction.getUUID().toString() + " successfully saved.");
-                }
+                Bukkit.getLogger().log(Level.INFO, logPrefix + faction.getUUID().toString() + " successfully saved.");
             }
 
                 Config.factionsConfig_set("activeFactions", activeFactions);
 
+            // Relations
+            Bukkit.getLogger().log(Level.INFO, logPrefix + "Step 3 : Saving Relations");
+            for (Relation relation : relations) {
+                switch (relation.getRelation()) {
+                    case ALLY:
+                        Config.factionsConfig_set("relations." + relation.getUUID().toString() + ".type", 2);
+                        Config.factionsConfig_set("relations." + relation.getUUID().toString() + ".relations.first.faction", relation.getFactions().first);
+                        Config.factionsConfig_set("relations." + relation.getUUID().toString() + ".relations.first.isConfirmed", relation.getFactions().isFirstConfirmed());
+                        Config.factionsConfig_set("relations." + relation.getUUID().toString() + ".relations.second.faction", relation.getFactions().second);
+                        Config.factionsConfig_set("relations." + relation.getUUID().toString() + ".relations.second.isConfirmed", relation.getFactions().isSecondConfirmed());
+                        break;
+                    case ENEMY:
+                        Config.factionsConfig_set("relations." + relation.getUUID().toString() + ".type", 1);
+                        Config.factionsConfig_set("relations." + relation.getUUID().toString() + ".relations.first.faction", relation.getFactions().first);
+                        Config.factionsConfig_set("relations." + relation.getUUID().toString() + ".relations.first.isConfirmed", relation.getFactions().isFirstConfirmed());
+                        Config.factionsConfig_set("relations." + relation.getUUID().toString() + ".relations.second.faction", relation.getFactions().second);
+                        Config.factionsConfig_set("relations." + relation.getUUID().toString() + ".relations.second.isConfirmed", relation.getFactions().isSecondConfirmed());
+                        break;
+                    case NEUTRAL:
+                        break;
+                }
+            }
+
             // PlayerProfile
-            Bukkit.getLogger().log(Level.INFO, logPrefix + "Step 3 : Saving Players");
+            Bukkit.getLogger().log(Level.INFO, logPrefix + "Step 4 : Saving Players");
             List<String> activePlayers = new ArrayList<String>();
             for (PlayerProfile playerProfile : players) {
                 activePlayers.add(playerProfile.getUUID().toString());
@@ -306,7 +309,9 @@ public class Loader {
 
                 Bukkit.getLogger().log(Level.INFO, logPrefix + playerProfile.getUUID().toString() + " successfully saved.");
             }
+
             Config.playersConfig_set("activePlayers", activePlayers);
+
             Bukkit.getLogger().log(Level.INFO, logPrefix + "--- SkyFaction Configs Loader ---");
 
         } catch (Exception e) {
