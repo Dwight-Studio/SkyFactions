@@ -98,4 +98,6 @@ public class Faction {
     public void setOpen(boolean open) {
         isOpen = open;
     }
+
+    //TODO: Gestion des candidatures (avec notifications)
 }

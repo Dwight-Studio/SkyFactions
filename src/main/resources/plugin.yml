@@ -4,24 +4,17 @@ main: fr.skynnotopia.skyfactions.Main
 load: POSTWORLD
 api-version: 1.13
 prefix: SkyFactions
-authors: [Deleranax,NonameSL]
+authors: [Deleranax,NonameSL,WhiteRed]
 description: Plugin assurant la gestion des factions sur le serveur "Visceral Diplomacy"
 website: https://skynnotopia.yo.fr
 commands:
   faction:
     usage: "/faction"
-    description: "Gère sa factions"
+    description: "Commande pour le plugin SkyFaction"
     permission: skyfaction.faction
     permission-message: "§cVous n'avez pas la permission d'utiliser cette commande."
     aliases:
       - f
-  factions:
-    usage: "/factions"
-    description: "Gère les factions."
-    permission: skyfaction.factions
-    permission-message: "§cVous n'avez pas la permission d'utiliser cette commande."
-    aliases:
-      - fs
   skyfaction:
       usage: "/skyfaction <reload|infos>"
       description: "Gère le plugin"

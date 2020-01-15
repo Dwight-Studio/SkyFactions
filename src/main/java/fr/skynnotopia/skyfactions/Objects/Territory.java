@@ -53,10 +53,14 @@ public class Territory {
     }
 
     public void upgrade() {
-
+        //TODO: Claim des chunks
     }
 
     public void downgrade() {
+        /*TODO: Perte d'un territoire:
+            Dernier Chunk Claim
+            Si le niveau de réputation diminue
+         */
 
     }
 }

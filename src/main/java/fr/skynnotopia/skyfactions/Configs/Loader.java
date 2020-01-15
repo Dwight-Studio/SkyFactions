@@ -95,7 +95,7 @@ public class Loader {
 
                 territories.add(new Territory(UUID.fromString(territoryUUID), chunks, lastChunkNumber, base, vault));
 
-                Bukkit.getLogger().log(Level.INFO, logPrefix + territoryUUID + " has been successfully loaded. (" + (i+1) + "/" + territoriesUUIDs.size() + ")");
+                Bukkit.getLogger().log(Level.INFO, logPrefix + territoryUUID + " successfully loaded. (" + (i+1) + "/" + territoriesUUIDs.size() + ")");
 
             }
 
@@ -133,7 +133,7 @@ public class Loader {
 
                 factions.add(new Faction(UUID.fromString(territoryUUID), name, null, reputationPoints, influencePoints, chief, officers, members, territory, isComplete, isOpen));
 
-                Bukkit.getLogger().log(Level.INFO, logPrefix + territoryUUID + " has been successfully loaded. (" + (i+1) + "/" + factionsUUIDs.size() + ")");
+                Bukkit.getLogger().log(Level.INFO, logPrefix + territoryUUID + " successfully loaded. (" + (i+1) + "/" + factionsUUIDs.size() + ")");
             }
 
             // Relations
@@ -164,7 +164,7 @@ public class Loader {
                 Faction f = new Faction(faction.getUUID(),faction.getName(),relations,faction.getReputationPoints(),faction.getInfluencePoints(),faction.getChief(),faction.getOfficers(),faction.getMembers(),faction.getTerritory(),faction.isComplete(), false);
                 factions.remove(faction);
                 factions.add(f);
-                Bukkit.getLogger().log(Level.INFO, logPrefix + "Relations of " + f.getUUID().toString() + " has been successfully loaded.");
+                Bukkit.getLogger().log(Level.INFO, logPrefix + "Relations of " + f.getUUID().toString() + " successfully loaded.");
             }
 
             // Players
@@ -182,7 +182,7 @@ public class Loader {
                 }
                 players.add(new PlayerProfile(UUID.fromString(playerUUID), faction, isChief, isOfficer));
 
-                Bukkit.getLogger().log(Level.INFO, logPrefix + playerUUID + " has been successfully loaded. (" + (i+1) + "/" + playersUUID.size() + ")");
+                Bukkit.getLogger().log(Level.INFO, logPrefix + playerUUID + " successfully loaded. (" + (i+1) + "/" + playersUUID.size() + ")");
             }
 
             Bukkit.getLogger().log(Level.INFO, logPrefix + "Done.");
@@ -230,7 +230,7 @@ public class Loader {
                     Config.territoriesConfig_set("territories." + territory.getUUID().toString() + ".chunks." + ch.getNumber() + ".x", ch.getChunk().getX());
                     Config.territoriesConfig_set("territories." + territory.getUUID().toString() + ".chunks." + ch.getNumber() + ".z", ch.getChunk().getZ());
                 }
-                Bukkit.getLogger().log(Level.INFO, logPrefix + territory.getUUID().toString() + " has been successfully saved.");
+                Bukkit.getLogger().log(Level.INFO, logPrefix + territory.getUUID().toString() + " successfully saved.");
             }
             Config.territoriesConfig_set("activeTerritories", activeTerritories);
 
@@ -285,7 +285,7 @@ public class Loader {
                                 break;
                         }
                     }
-                    Bukkit.getLogger().log(Level.INFO, logPrefix + faction.getUUID().toString() + " has been successfully saved.");
+                    Bukkit.getLogger().log(Level.INFO, logPrefix + faction.getUUID().toString() + " successfully saved.");
                 }
             }
 
@@ -304,7 +304,7 @@ public class Loader {
                 Config.playersConfig_set("players." + playerProfile.getUUID().toString() + ".isChief", playerProfile.isChief());
                 Config.playersConfig_set("players." + playerProfile.getUUID().toString() + ".isOfficer", playerProfile.isOfficer());
 
-                Bukkit.getLogger().log(Level.INFO, logPrefix + playerProfile.getUUID().toString() + " has been successfully saved.");
+                Bukkit.getLogger().log(Level.INFO, logPrefix + playerProfile.getUUID().toString() + " successfully saved.");
             }
             Config.playersConfig_set("activePlayers", activePlayers);
             Bukkit.getLogger().log(Level.INFO, logPrefix + "--- SkyFaction Configs Loader ---");
@@ -316,7 +316,7 @@ public class Loader {
                 Bukkit.getLogger().log(Level.SEVERE, logPrefix + "Can't save configs, Retrying...");
                 close();
             } else  {
-                Bukkit.getLogger().log(Level.SEVERE, logPrefix + "Can't save configs after 3 retry.");
+                Bukkit.getLogger().log(Level.SEVERE, logPrefix + "Can't save configs after 3 retries.");
                 Bukkit.getLogger().log(Level.INFO, logPrefix + "--- SkyFaction Configs Loader ---");
             }
         }

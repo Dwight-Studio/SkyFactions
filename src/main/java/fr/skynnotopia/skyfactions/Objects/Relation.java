@@ -34,4 +34,10 @@ public class Relation {
     public void setFaction(Faction faction) {
         this.faction = faction;
     }
+
+    /*TODO: Revoir le système de relations:
+        Faire en sorte que les relations soit stocker dans un fichier à-part
+        Faire en sorte que les relations soit un objet à-part entière (ne sont pas des variables des objets Faction)
+        Modifier le loader pour prendre en compte les changement
+     */
 }

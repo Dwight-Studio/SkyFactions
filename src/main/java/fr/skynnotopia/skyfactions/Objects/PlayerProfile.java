@@ -50,4 +50,6 @@ public class PlayerProfile {
     public Player getPlayer() {
         return Bukkit.getPlayer(uuid);
     }
+
+    //TODO: Gestion des invitations (avec notifications)
 }
