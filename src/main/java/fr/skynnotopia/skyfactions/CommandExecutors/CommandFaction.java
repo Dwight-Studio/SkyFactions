@@ -5,6 +5,7 @@ import brian.menuinterface.button.MenuButton;
 import brian.menuinterface.events.ButtonClickEvent;
 import brian.menuinterface.types.StandardMenu;
 import fr.skynnotopia.skyfactions.Main;
+import fr.skynnotopia.skyfactions.Menus.MenuBuilder;
 import fr.skynnotopia.skyfactions.Objects.ItemBuilder;
 import fr.skynnotopia.skyfactions.Objects.PlayerProfile;
 import org.bukkit.ChatColor;
@@ -28,6 +29,8 @@ public class CommandFaction implements CommandExecutor {
         } else {
             return false;
         }
+
+        MenuBuilder.withoutFaction(sender.getPlayer());
 
         // Si le joueur n'a pas de faction
         if (sender.getFaction() == null) {
