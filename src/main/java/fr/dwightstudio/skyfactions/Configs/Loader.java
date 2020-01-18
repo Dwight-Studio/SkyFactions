@@ -180,7 +180,9 @@ public class Loader {
                 } catch (NullPointerException e) {
                     faction = null;
                 }
-                players.add(new PlayerProfile(UUID.fromString(playerUUID), faction, isChief, isOfficer));
+
+                String title = Config.playersConfig_getString("players." + playerUUID + ".title");
+                players.add(new PlayerProfile(UUID.fromString(playerUUID), faction, isChief, isOfficer, title));
 
                 Bukkit.getLogger().log(Level.INFO, logPrefix + playerUUID + " successfully loaded. (" + (i+1) + "/" + playersUUID.size() + ")");
             }
@@ -317,6 +319,10 @@ public class Loader {
 
                 Config.playersConfig_set("players." + playerProfile.getUUID().toString() + ".isChief", playerProfile.isChief());
                 Config.playersConfig_set("players." + playerProfile.getUUID().toString() + ".isOfficer", playerProfile.isOfficer());
+
+                if (playerProfile.getTitle() != null) {
+                    Config.playersConfig_set("players." + playerProfile.getUUID().toString() + ".title", playerProfile.getTitle());
+                }
 
                 Bukkit.getLogger().log(Level.INFO, logPrefix + playerProfile.getUUID().toString() + " successfully saved.");
             }

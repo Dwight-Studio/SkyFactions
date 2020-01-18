@@ -14,6 +14,6 @@ public class SetPlayerProfileListener implements Listener {
                 return;
             }
         }
-        Main.loader.players.add(new PlayerProfile(event.getPlayer().getUniqueId(), null, false, false));
+        Main.loader.players.add(new PlayerProfile(event.getPlayer().getUniqueId(), null, false, false, null));
     }
 }

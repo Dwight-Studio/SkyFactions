@@ -11,12 +11,14 @@ public class PlayerProfile {
     private Faction faction;
     private boolean isChief;
     private boolean isOfficer;
+    private String title;
 
-    public PlayerProfile(UUID uuid, Faction faction, boolean isChief, boolean isOfficer) {
+    public PlayerProfile(UUID uuid, Faction faction, boolean isChief, boolean isOfficer, String title) {
         this.uuid = uuid;
         this.faction = faction;
         this.isChief = isChief;
         this.isOfficer = isOfficer;
+        this.title = title;
     }
 
     public UUID getUUID() {
@@ -49,6 +51,14 @@ public class PlayerProfile {
 
     public Player getPlayer() {
         return Bukkit.getPlayer(uuid);
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     //TODO: Gestion des invitations (avec notifications)
