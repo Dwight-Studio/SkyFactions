@@ -1,21 +1,12 @@
-package fr.skynnotopia.skyfactions.CommandExecutors;
+package fr.dwightstudio.skyfactions.CommandExecutors;
 
-import brian.menuinterface.button.DefaultButtons;
-import brian.menuinterface.button.MenuButton;
-import brian.menuinterface.events.ButtonClickEvent;
-import brian.menuinterface.types.StandardMenu;
-import fr.skynnotopia.skyfactions.Main;
-import fr.skynnotopia.skyfactions.Menus.MenuBuilder;
-import fr.skynnotopia.skyfactions.Objects.ItemBuilder;
-import fr.skynnotopia.skyfactions.Objects.PlayerProfile;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
+import fr.dwightstudio.skyfactions.Main;
+import fr.dwightstudio.skyfactions.Menus.MenuBuilder;
+import fr.dwightstudio.skyfactions.Objects.PlayerProfile;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import java.util.function.Consumer;
 
 public class CommandFaction implements CommandExecutor {
 

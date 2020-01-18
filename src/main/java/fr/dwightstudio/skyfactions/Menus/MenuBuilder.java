@@ -1,17 +1,8 @@
-package fr.skynnotopia.skyfactions.Menus;
+package fr.dwightstudio.skyfactions.Menus;
 
-import brian.menuinterface.button.DefaultButtons;
-import brian.menuinterface.button.PagedButton;
 import brian.menuinterface.design.MenuDesigner;
-import brian.menuinterface.events.ButtonClickEvent;
-import brian.menuinterface.types.PagedMenu;
 import brian.menuinterface.types.StandardMenu;
-import fr.skynnotopia.skyfactions.Main;
-import fr.skynnotopia.skyfactions.Objects.ItemBuilder;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
-
-import java.util.function.Consumer;
 
 public class MenuBuilder {
 

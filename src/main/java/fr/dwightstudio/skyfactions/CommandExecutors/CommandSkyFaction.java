@@ -1,4 +1,4 @@
-package fr.skynnotopia.skyfactions.CommandExecutors;
+package fr.dwightstudio.skyfactions.CommandExecutors;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

@@ -1,4 +1,4 @@
-package fr.skynnotopia.skyfactions.Listeners;
+package fr.dwightstudio.skyfactions.Listeners;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

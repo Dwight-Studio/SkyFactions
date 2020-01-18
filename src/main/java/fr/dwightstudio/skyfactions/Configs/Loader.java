@@ -1,6 +1,7 @@
-package fr.skynnotopia.skyfactions.Configs;
+package fr.dwightstudio.skyfactions.Configs;
 
-import fr.skynnotopia.skyfactions.Objects.*;
+import fr.dwightstudio.skyfactions.Objects.*;
+import fr.dwightstudio.skyfactions.Objects.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
@@ -9,8 +10,8 @@ import java.util.List;
 import java.util.UUID;
 import java.util.logging.Level;
 
-import static fr.skynnotopia.skyfactions.Main.getPlugin;
-import static fr.skynnotopia.skyfactions.Main.logPrefix;
+import static fr.dwightstudio.skyfactions.Main.getPlugin;
+import static fr.dwightstudio.skyfactions.Main.logPrefix;
 
 public class Loader {
 

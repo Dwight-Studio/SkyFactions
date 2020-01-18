@@ -1,10 +1,7 @@
-package fr.skynnotopia.skyfactions.Objects;
+package fr.dwightstudio.skyfactions.Objects;
 
-import fr.skynnotopia.skyfactions.Configs.Config;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 

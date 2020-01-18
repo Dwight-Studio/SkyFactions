@@ -1,12 +1,12 @@
 name: SkyFactions
 version: ${project.version}
-main: fr.skynnotopia.skyfactions.Main
+main: fr.dwightstudio.skyfactions.Main
 load: POSTWORLD
 api-version: 1.13
 prefix: SkyFactions
 authors: [Deleranax,NonameSL,WhiteRed]
 description: Plugin assurant la gestion des factions sur le serveur "Visceral Diplomacy"
-website: https://skynnotopia.yo.fr
+website: https://dwightstudio.yo.fr
 commands:
   faction:
     usage: "/faction"

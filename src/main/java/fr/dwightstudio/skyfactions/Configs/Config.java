@@ -1,4 +1,4 @@
-package fr.skynnotopia.skyfactions.Configs;
+package fr.dwightstudio.skyfactions.Configs;
 
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -10,8 +10,8 @@ import java.io.IOException;
 import java.util.Set;
 import java.util.logging.Level;
 
-import static fr.skynnotopia.skyfactions.Main.getPlugin;
-import static fr.skynnotopia.skyfactions.Main.logPrefix;
+import static fr.dwightstudio.skyfactions.Main.getPlugin;
+import static fr.dwightstudio.skyfactions.Main.logPrefix;
 
 public class Config {
 

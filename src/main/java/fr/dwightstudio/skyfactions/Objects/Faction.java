@@ -1,4 +1,4 @@
-package fr.skynnotopia.skyfactions.Objects;
+package fr.dwightstudio.skyfactions.Objects;
 
 import java.util.List;
 import java.util.UUID;

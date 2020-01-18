@@ -1,7 +1,7 @@
-package fr.skynnotopia.skyfactions.Listeners;
+package fr.dwightstudio.skyfactions.Listeners;
 
-import fr.skynnotopia.skyfactions.Main;
-import fr.skynnotopia.skyfactions.Objects.PlayerProfile;
+import fr.dwightstudio.skyfactions.Objects.PlayerProfile;
+import fr.dwightstudio.skyfactions.Main;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;

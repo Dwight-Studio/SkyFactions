@@ -1,4 +1,4 @@
-package fr.skynnotopia.skyfactions.Objects;
+package fr.dwightstudio.skyfactions.Objects;
 
 import org.bukkit.Chunk;
 

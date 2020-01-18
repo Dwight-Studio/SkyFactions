@@ -1,9 +1,9 @@
-package fr.skynnotopia.skyfactions.Listeners;
+package fr.dwightstudio.skyfactions.Listeners;
 
-import fr.skynnotopia.skyfactions.Main;
-import fr.skynnotopia.skyfactions.Objects.Faction;
-import fr.skynnotopia.skyfactions.Objects.PlayerProfile;
-import fr.skynnotopia.skyfactions.Objects.Relation;
+import fr.dwightstudio.skyfactions.Objects.PlayerProfile;
+import fr.dwightstudio.skyfactions.Main;
+import fr.dwightstudio.skyfactions.Objects.Faction;
+import fr.dwightstudio.skyfactions.Objects.Relation;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import static fr.skynnotopia.skyfactions.Main.messagePrefix;
+import static fr.dwightstudio.skyfactions.Main.messagePrefix;
 
 public class ChatInputListener implements Listener {
 

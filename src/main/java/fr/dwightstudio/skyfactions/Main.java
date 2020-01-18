@@ -1,14 +1,14 @@
-package fr.skynnotopia.skyfactions;
+package fr.dwightstudio.skyfactions;
 
 import brian.menuinterface.MenuListener;
-import fr.skynnotopia.skyfactions.CommandExecutors.CommandSkyFaction;
-import fr.skynnotopia.skyfactions.CommandExecutors.CommandFaction;
-import fr.skynnotopia.skyfactions.Configs.Loader;
-import fr.skynnotopia.skyfactions.Listeners.BlocksProtectionListener;
-import fr.skynnotopia.skyfactions.Listeners.ChatInputListener;
-import fr.skynnotopia.skyfactions.Listeners.SetPlayerProfileListener;
-import fr.skynnotopia.skyfactions.TabCompleters.TabCompleterFaction;
-import fr.skynnotopia.skyfactions.TabCompleters.TabCompleterSkyFaction;
+import fr.dwightstudio.skyfactions.Configs.Loader;
+import fr.dwightstudio.skyfactions.Listeners.BlocksProtectionListener;
+import fr.dwightstudio.skyfactions.Listeners.ChatInputListener;
+import fr.dwightstudio.skyfactions.Listeners.SetPlayerProfileListener;
+import fr.dwightstudio.skyfactions.CommandExecutors.CommandSkyFaction;
+import fr.dwightstudio.skyfactions.CommandExecutors.CommandFaction;
+import fr.dwightstudio.skyfactions.TabCompleters.TabCompleterFaction;
+import fr.dwightstudio.skyfactions.TabCompleters.TabCompleterSkyFaction;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
 

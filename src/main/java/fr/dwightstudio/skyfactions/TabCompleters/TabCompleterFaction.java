@@ -1,4 +1,4 @@
-package fr.skynnotopia.skyfactions.TabCompleters;
+package fr.dwightstudio.skyfactions.TabCompleters;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
