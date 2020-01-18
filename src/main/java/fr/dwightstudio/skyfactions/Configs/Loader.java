@@ -45,10 +45,61 @@ public class Loader {
         return null;
     }
 
-    public List<Territory> territories = new ArrayList<Territory>();
-    public List<Faction> factions = new ArrayList<Faction>();
-    public List<PlayerProfile> players = new ArrayList<PlayerProfile>();
-    public List<Relation> relations = new ArrayList<Relation>();
+    public List<Territory> getTerritories() {
+        return territories;
+    }
+
+    public void addTerritory(Territory territory) {
+        territories.add(territory);
+    }
+
+    public void removeTerritory(Territory territory) {
+        territories.remove(territory);
+    }
+
+    private List<Territory> territories = new ArrayList<Territory>();
+
+    public List<Faction> getFactions() {
+        return factions;
+    }
+
+    public void addFaction(Faction faction) {
+        factions.add(faction);
+    }
+
+    public void removeFaction(Faction faction) {
+        factions.remove(faction);
+    }
+
+    private List<Faction> factions = new ArrayList<Faction>();
+
+    public List<PlayerProfile> getPlayers() {
+        return players;
+    }
+
+    public void addPlayerProfile(PlayerProfile playerProfile) {
+        players.add(playerProfile);
+    }
+
+    public void removePlayerProfile(PlayerProfile playerProfile) {
+        players.remove(playerProfile);
+    }
+
+    private List<PlayerProfile> players = new ArrayList<PlayerProfile>();
+
+    public List<Relation> getRelations() {
+        return relations;
+    }
+
+    public void addRelation(Relation relation) {
+        relations.add(relation);
+    }
+
+    public void removeRelation(Relation relation) {
+        relations.remove(relation);
+    }
+
+    private List<Relation> relations = new ArrayList<Relation>();
 
     public Loader() {
         config = new Config();

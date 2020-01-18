@@ -10,11 +10,11 @@ import org.bukkit.event.player.PlayerJoinEvent;
 public class SetPlayerProfileListener implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
-        for (PlayerProfile playerProfile : Main.loader.players) {
+        for (PlayerProfile playerProfile : Main.loader.getPlayers()) {
             if (playerProfile.getUUID() == event.getPlayer().getUniqueId()) {
                 return;
             }
         }
-        Main.loader.players.add(new PlayerProfile(event.getPlayer().getUniqueId(), null, false, false, null));
+        Main.loader.addPlayerProfile(new PlayerProfile(event.getPlayer().getUniqueId(), null, false, false, null));
     }
 }
