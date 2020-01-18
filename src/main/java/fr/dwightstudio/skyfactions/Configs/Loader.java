@@ -6,6 +6,7 @@ import org.bukkit.Location;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.logging.Level;
 
@@ -147,7 +148,7 @@ public class Loader {
                 String relationUUID = relationsUUIDs.get(i);
                 Relations type;
                 switch (Config.relationsConfig_getInt("relations." + relationUUID + ".type")) {
-                    case 0:
+                    default:
                         type = Relations.NEUTRAL;
                         break;
                     case 1:
@@ -163,7 +164,7 @@ public class Loader {
                 Faction secondFaction = getFaction(UUID.fromString(Config.relationsConfig_getString("relations." + relationUUID + ".second.faction")));
                 boolean secondConfirmed = Config.relationsConfig_getBoolean("relations." + relationUUID + ".second.isConfirmed");
                 
-                relations.add(new Relation(UUID.fromString(relationUUID),Relations.ALLY,new FactionCouple(firstFaction,firstConfirmed,secondFaction,secondConfirmed)));
+                relations.add(new Relation(UUID.fromString(relationUUID),type,new FactionCouple(firstFaction,firstConfirmed,secondFaction,secondConfirmed)));
                 Bukkit.getLogger().log(Level.INFO, logPrefix + "Relation " + relationUUID + " successfully loaded.");
             }
 
@@ -289,20 +290,21 @@ public class Loader {
             for (Relation relation : relations) {
                 switch (relation.getRelation()) {
                     case ALLY:
-                        Config.factionsConfig_set("relations." + relation.getUUID().toString() + ".type", 2);
-                        Config.factionsConfig_set("relations." + relation.getUUID().toString() + ".relations.first.faction", relation.getFactions().first);
-                        Config.factionsConfig_set("relations." + relation.getUUID().toString() + ".relations.first.isConfirmed", relation.getFactions().isFirstConfirmed());
-                        Config.factionsConfig_set("relations." + relation.getUUID().toString() + ".relations.second.faction", relation.getFactions().second);
-                        Config.factionsConfig_set("relations." + relation.getUUID().toString() + ".relations.second.isConfirmed", relation.getFactions().isSecondConfirmed());
+                        Config.relationsConfig_set("relations." + relation.getUUID().toString() + ".type", 2);
+                        Config.relationsConfig_set("relations." + relation.getUUID().toString() + ".relations.first.faction", relation.getFactions().first);
+                        Config.relationsConfig_set("relations." + relation.getUUID().toString() + ".relations.first.isConfirmed", relation.getFactions().isFirstConfirmed());
+                        Config.relationsConfig_set("relations." + relation.getUUID().toString() + ".relations.second.faction", relation.getFactions().second);
+                        Config.relationsConfig_set("relations." + relation.getUUID().toString() + ".relations.second.isConfirmed", relation.getFactions().isSecondConfirmed());
                         break;
                     case ENEMY:
-                        Config.factionsConfig_set("relations." + relation.getUUID().toString() + ".type", 1);
-                        Config.factionsConfig_set("relations." + relation.getUUID().toString() + ".relations.first.faction", relation.getFactions().first);
-                        Config.factionsConfig_set("relations." + relation.getUUID().toString() + ".relations.first.isConfirmed", relation.getFactions().isFirstConfirmed());
-                        Config.factionsConfig_set("relations." + relation.getUUID().toString() + ".relations.second.faction", relation.getFactions().second);
-                        Config.factionsConfig_set("relations." + relation.getUUID().toString() + ".relations.second.isConfirmed", relation.getFactions().isSecondConfirmed());
+                        Config.relationsConfig_set("relations." + relation.getUUID().toString() + ".type", 1);
+                        Config.relationsConfig_set("relations." + relation.getUUID().toString() + ".relations.first.faction", relation.getFactions().first);
+                        Config.relationsConfig_set("relations." + relation.getUUID().toString() + ".relations.first.isConfirmed", relation.getFactions().isFirstConfirmed());
+                        Config.relationsConfig_set("relations." + relation.getUUID().toString() + ".relations.second.faction", relation.getFactions().second);
+                        Config.relationsConfig_set("relations." + relation.getUUID().toString() + ".relations.second.isConfirmed", relation.getFactions().isSecondConfirmed());
                         break;
                     case NEUTRAL:
+                        Config.relationsConfig_set("relations." + relation.getUUID().toString(), null);
                         break;
                 }
             }
