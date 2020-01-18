@@ -29,7 +29,7 @@ public class ChatInputListener implements Listener {
             List<UUID> members = new ArrayList<UUID>();
             List<UUID> officers = new ArrayList<UUID>();
             List<Relation> relations = new ArrayList<Relation>();
-            Faction fac = new Faction(UUID.randomUUID(), event.getMessage(), relations, 20,20, event.getPlayer().getUniqueId(), officers, members,null, false, false);
+            Faction fac = new Faction(UUID.randomUUID(), event.getMessage(), relations, 20,20, event.getPlayer().getUniqueId(), officers, members,null, false, false, null, null);
             Main.loader.factions.add(fac);
             Main.loader.getPlayerProfile(event.getPlayer().getUniqueId()).setFaction(fac);
             Main.loader.getPlayerProfile(event.getPlayer().getUniqueId()).setChief(true);

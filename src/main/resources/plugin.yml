@@ -20,3 +20,14 @@ commands:
       description: "Gère le plugin"
       permission: skyfaction.admin
       permission-message: "§cVous n'avez pas la permission d'utiliser cette commande."
+  factionchat:
+      usage:  "/factionchat [Message]"
+      description: "Envoyer un message aux membres de la faction."
+      permission: skyfaction.chat
+      permission-message: "§cVous n'avez pas la permission d'utiliser cette commande."
+      aliases:
+        - fc
+        - fchat
+        - factionc
+        - facc
+        - facchat

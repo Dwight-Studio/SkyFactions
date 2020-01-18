@@ -1,7 +1,6 @@
 package fr.dwightstudio.skyfactions.Configs;
 
 import fr.dwightstudio.skyfactions.Objects.*;
-import fr.dwightstudio.skyfactions.Objects.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
@@ -105,19 +104,19 @@ public class Loader {
             Bukkit.getLogger().log(Level.INFO, logPrefix + "Step 2 : Loading Factions");
             List<String> factionsUUIDs = Config.factionsConfig_getStringList("activeFactions");
             for (int i = 0; i != factionsUUIDs.size(); i++) {
-                String territoryUUID = factionsUUIDs.get(i);
-                String name = Config.factionsConfig_getString("factions." + territoryUUID + ".name");
-                int reputationPoints = Config.factionsConfig_getInt("factions." + territoryUUID + ".reputationPoints");
-                int influencePoints  = Config.factionsConfig_getInt("factions." + territoryUUID + ".influencePoints");
-                UUID chief = UUID.fromString(Config.factionsConfig_getString("factions." + territoryUUID + ".chief"));
+                String factionUUID = factionsUUIDs.get(i);
+                String name = Config.factionsConfig_getString("factions." + factionUUID + ".name");
+                int reputationPoints = Config.factionsConfig_getInt("factions." + factionUUID + ".reputationPoints");
+                int influencePoints  = Config.factionsConfig_getInt("factions." + factionUUID + ".influencePoints");
+                UUID chief = UUID.fromString(Config.factionsConfig_getString("factions." + factionUUID + ".chief"));
 
                 List<UUID> officers = new ArrayList<UUID>();
-                for (String u : Config.factionsConfig_getStringList("factions." + territoryUUID + ".officers")) {
+                for (String u : Config.factionsConfig_getStringList("factions." + factionUUID + ".officers")) {
                     officers.add(UUID.fromString(u));
                 }
 
                 List<UUID> members = new ArrayList<UUID>();
-                for (String u : Config.factionsConfig_getStringList("factions." + territoryUUID + ".members")) {
+                for (String u : Config.factionsConfig_getStringList("factions." + factionUUID + ".members")) {
                     officers.add(UUID.fromString(u));
                 }
 
@@ -125,17 +124,20 @@ public class Loader {
                 Territory territory;
 
                 try {
-                    territory = getTerritory(UUID.fromString(Config.factionsConfig_getString("factions." + territoryUUID + ".territory")));
+                    territory = getTerritory(UUID.fromString(Config.factionsConfig_getString("factions." + factionUUID + ".territory")));
                 } catch (NullPointerException e) {
                     territory = null;
                 }
 
-                boolean isComplete = Config.factionsConfig_getBoolean("factions." + territoryUUID + ".isComplete");
-                boolean isOpen = Config.factionsConfig_getBoolean("factions." + territoryUUID + ".isOpen");
 
-                factions.add(new Faction(UUID.fromString(territoryUUID), name, null, reputationPoints, influencePoints, chief, officers, members, territory, isComplete, isOpen));
+                boolean isComplete = Config.factionsConfig_getBoolean("factions." + factionUUID + ".isComplete");
+                boolean isOpen = Config.factionsConfig_getBoolean("factions." + factionUUID + ".isOpen");
+                String nickname = Config.factionsConfig_getString("factions." + factionUUID + ".nickname");
+                String description = Config.factionsConfig_getString("factions." + factionUUID + ".description");
 
-                Bukkit.getLogger().log(Level.INFO, logPrefix + territoryUUID + " successfully loaded. (" + (i+1) + "/" + factionsUUIDs.size() + ")");
+                factions.add(new Faction(UUID.fromString(factionUUID), name, null, reputationPoints, influencePoints, chief, officers, members, territory, isComplete, isOpen, nickname, description));
+
+                Bukkit.getLogger().log(Level.INFO, logPrefix + factionUUID + " successfully loaded. (" + (i+1) + "/" + factionsUUIDs.size() + ")");
             }
 
             // Relations
@@ -260,6 +262,14 @@ public class Loader {
 
                 Config.factionsConfig_set("factions." + faction.getUUID().toString() + ".isComplete", faction.isComplete());
                 Config.factionsConfig_set("factions." + faction.getUUID().toString() + ".isOpen", faction.isOpen());
+
+                if (faction.getNickname() != null) {
+                    Config.factionsConfig_set("factions." + faction.getUUID().toString() + ".nickname", faction.getNickname());
+                }
+
+                if (faction.getDescription() != null) {
+                    Config.factionsConfig_set("factions." + faction.getUUID().toString() + ".description", faction.getDescription());
+                }
 
                 List<String> members = new ArrayList<String>();
                 for (UUID mem : faction.getMembers()) {

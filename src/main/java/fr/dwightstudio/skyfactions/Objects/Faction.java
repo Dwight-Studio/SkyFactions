@@ -16,8 +16,10 @@ public class Faction {
     private Territory territory;
     private boolean isComplete;
     private boolean isOpen;
+    private String nickname;
+    private String description;
 
-    public Faction(UUID uuid, String name, List<Relation> relations, int reputationPoints, int influencePoints, UUID chief, List<UUID> officers, List<UUID> members, Territory territory, boolean isComplete, boolean isOpen) {
+    public Faction(UUID uuid, String name, List<Relation> relations, int reputationPoints, int influencePoints, UUID chief, List<UUID> officers, List<UUID> members, Territory territory, boolean isComplete, boolean isOpen, String nickname, String description) {
         this.uuid = uuid;
         this.name = name;
         this.relations = relations;
@@ -29,6 +31,8 @@ public class Faction {
         this.territory = territory;
         this.isComplete = isComplete;
         this.isOpen = isOpen;
+        this.nickname = nickname;
+        this.description = description;
     }
 
     public UUID getUUID() {
@@ -97,6 +101,22 @@ public class Faction {
 
     public void setOpen(boolean open) {
         isOpen = open;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     //TODO: Gestion des candidatures (avec notifications)

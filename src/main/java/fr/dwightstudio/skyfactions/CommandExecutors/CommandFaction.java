@@ -32,17 +32,19 @@ public class CommandFaction implements CommandExecutor {
                         Infos (...)
                 Créer une faction
                     Ajouter le joueur dans la liste @see ChatInputListener
+                Carte (On/Off)
             */
 
          // Si le joueur à une faction, mais n'est pas chef, ni officier
         } else if (!sender.isChief() && !sender.isOfficer()) {
             /*TODO: Menu pour les joueurs avec faction
                 Parcourir les factions
-                        Infos (...)
-                Gestion des membres
+                    Infos (...)
+                Liste des membres
                     Liste (...)
-                Territoires
-                    Carte
+                Carte (On/Off)
+                Quitter la faction
+                    Confirmer
              */
 
 
@@ -52,18 +54,20 @@ public class CommandFaction implements CommandExecutor {
                 Parcourir les factions
                     Selectionner une faction (Créer un nouveau type de bouton) (liste de toutes les factions)
                         Infos (...)
-                Membres
-                    Inviter
-                        Selectionner une membre (Créer un nouveau type de bouton) (liste de toutes les membres)
-                    Gestion des membres
-                        Selectionner une membre (Créer un nouveau type de bouton) (liste de toutes les membres)
-                            Promouvoir
-                            Expulser
-                Territoires
-                    Carte
-                    Revendiquer un chunk (position actuelle)
-                    Supprimer un chunk (position actuelle)
-                    Infos (...)
+                Inviter
+                    Selectionner un joueur (Créer un nouveau type de bouton) (liste de tous les joueurs)
+                Gestion des membres
+                    Selectionner un membre (Créer un nouveau type de bouton) (liste de tous les membres)
+                        Changer le titre
+                        Promouvoir
+                        Expulser
+                Carte (On/Off)
+                Revendiquer un chunk (position actuelle)
+                Supprimer un chunk (position actuelle)
+                Rendre la faction ouverte/fermée
+                Infos sur la faction (...)
+                Quitter la faction
+                    Confirmer
             */
 
             // Si le joueur à une faction, et est chef
@@ -72,33 +76,26 @@ public class CommandFaction implements CommandExecutor {
                 Parcourir les factions
                     Selectionner une faction (Créer un nouveau type de bouton) (liste de toutes les factions)
                         infos (...)
-                        Envoyer un message
                         Déclarer la guerre / Rompre l'alliance
                         Faire une alliance / Faire la paix
-                Membres
-                    Inviter
-                        Selectionner une membre (Créer un nouveau type de bouton) (liste de toutes les membres)
-                    Gestion des membres
-                        Selectionner une membre (Créer un nouveau type de bouton) (liste de toutes les membres)
-                            Promouvoir
-                            Promouvoir chef (vous remplace)
-                            Expulser
-                Territoires
-                    Carte
-                    Revendiquer un chunk (position actuelle)
-                    Supprimer un chunk (position actuelle)
-                    Infos (...)
-                 Diplomacie
-                    Relations
-                        Selectionner une faction (Créer un nouveau type de bouton) (liste de toutes les factions avec relation avec cette faction)
-                            Envoyer un message
-                            Rompre l'alliance/ Faire la paix
-                    Messages reçus
-                        Selectionner un message (Créer un nouveau type de bouton) (liste de tous les messages)
-                            Infos (message)
-                            Repondre
-                    Envoyer un message
-                        Selectionner une faction (Créer un nouveau type de bouton) (liste de toutes les factions)
+                 Inviter
+                    Selectionner un joueur (Créer un nouveau type de bouton) (liste de tous les joueurs)
+                 Gestion des membres
+                    Selectionner un membre (Créer un nouveau type de bouton) (liste de tous les membres)
+                        Changer le titre
+                        Promouvoir
+                        Promouvoir chef (vous remplace)
+                        Expulser
+                Carte (On/Off)
+                Revendiquer un chunk (position actuelle)
+                Supprimer un chunk (position actuelle)
+                Rendre la faction ouverte/fermée
+                Renomer la faction
+                Changer le diminutif (5 caractères maximums) (S'affiche devant le nom des membres)
+                Changer la description
+                Infos sur la faction (...)
+                Dissoudre la faction
+                    Confirmer
             */
         }
     return  true;

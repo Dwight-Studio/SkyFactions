@@ -39,6 +39,9 @@ public final class Main extends JavaPlugin {
 
         getCommand("skyfaction").setExecutor(new CommandSkyFaction());
         getCommand("skyfaction").setTabCompleter(new TabCompleterSkyFaction());
+
+        getCommand("factionchat").setExecutor(new CommandFactionChat());
+        getCommand("factionchat").setTabCompleter(new TabCompleterFactionChat());
     }
 
     @Override
