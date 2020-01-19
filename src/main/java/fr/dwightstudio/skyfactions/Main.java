@@ -10,7 +10,12 @@ import fr.dwightstudio.skyfactions.CommandExecutors.CommandFaction;
 import fr.dwightstudio.skyfactions.TabCompleters.TabCompleterFaction;
 import fr.dwightstudio.skyfactions.TabCompleters.TabCompleterSkyFaction;
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public final class Main extends JavaPlugin {
 
@@ -18,6 +23,7 @@ public final class Main extends JavaPlugin {
     public static final String messagePrefix = ChatColor.DARK_GREEN + "[SkyFactions] " + ChatColor.RESET;
     public static Loader loader;
     public static JavaPlugin plugin;
+    public static List<Player> mapPlayerList;
 
     @Override
     public void onEnable() {
@@ -25,10 +31,10 @@ public final class Main extends JavaPlugin {
         plugin = this;
         MenuListener.register(plugin);
 
-        // Configs
+        //Configs
         loader = new Loader();
 
-        // Listeners
+        //Listeners
         getServer().getPluginManager().registerEvents(new BlocksProtectionListener(), this);
         getServer().getPluginManager().registerEvents(new ChatInputListener(), this);
         getServer().getPluginManager().registerEvents(new SetPlayerProfileListener(), this);
@@ -42,6 +48,15 @@ public final class Main extends JavaPlugin {
 
         getCommand("factionchat").setExecutor(new CommandFactionChat());
         getCommand("factionchat").setTabCompleter(new TabCompleterFactionChat());
+
+        //Map
+        mapPlayerList = new ArrayList<Player>();
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                mapNotification();
+            }
+        }.runTaskTimer(this, 40, 40);
     }
 
     @Override
@@ -51,5 +66,16 @@ public final class Main extends JavaPlugin {
 
     public static JavaPlugin getPlugin() {
         return plugin;
+    }
+
+    public static void mapNotification() {
+        for (Player player : mapPlayerList) {
+            try {
+                player.sendMessage("");
+                //TODO: Faire la map
+            } catch (NullPointerException exception) {
+                continue;
+            }
+        }
     }
 }

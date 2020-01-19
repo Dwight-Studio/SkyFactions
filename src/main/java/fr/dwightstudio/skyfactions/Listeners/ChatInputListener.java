@@ -28,19 +28,23 @@ public class ChatInputListener implements Listener {
     public void onAsyncPlayerChat(AsyncPlayerChatEvent event) {
         if (factionCreationPhase1.contains(event.getPlayer())) {
             event.setCancelled(true);
-            factionCreationPhase1.remove(event.getPlayer());
-            List<UUID> members = new ArrayList<UUID>();
-            List<UUID> officers = new ArrayList<UUID>();
-            List<Relation> relations = new ArrayList<Relation>();
-            Faction fac = new Faction(UUID.randomUUID(), event.getMessage(), relations, 20,20, event.getPlayer().getUniqueId(), officers, members,null, false, false, null, null);
-            Main.loader.addFaction(fac);
-            Main.loader.getPlayerProfile(event.getPlayer().getUniqueId()).setFaction(fac);
-            Main.loader.getPlayerProfile(event.getPlayer().getUniqueId()).setChief(true);
-            event.getPlayer().sendMessage(messagePrefix + ChatColor.GOLD +
-                    "Indiquer le diminutif de votre Faction. " +
-                    "Il doit être composé de 5 caractères (couleurs non comprises) ou moins et peut contenir des couleurs. " +
-                    "Il apparaît devant le nom dans le chat : " + "[" + ChatColor.AQUA + "fact" + ChatColor.GREEN + "ion" + ChatColor.WHITE + "]" + event.getPlayer().getDisplayName() + ChatColor.WHITE + " : message" + ChatColor.GOLD + ".");
-            factionCreationPhase2.add(event.getPlayer());
+            if (event.getMessage().length() <= 20) {
+                factionCreationPhase1.remove(event.getPlayer());
+                List<UUID> members = new ArrayList<UUID>();
+                List<UUID> officers = new ArrayList<UUID>();
+                List<Relation> relations = new ArrayList<Relation>();
+                Faction fac = new Faction(UUID.randomUUID(), event.getMessage(), relations, 20, 20, event.getPlayer().getUniqueId(), officers, members, null, false, false, null, null);
+                Main.loader.addFaction(fac);
+                Main.loader.getPlayerProfile(event.getPlayer().getUniqueId()).setFaction(fac);
+                Main.loader.getPlayerProfile(event.getPlayer().getUniqueId()).setChief(true);
+                event.getPlayer().sendMessage(messagePrefix + ChatColor.GOLD +
+                        "Indiquer le diminutif de votre Faction. " +
+                        "Il doit être composé de 5 caractères (couleurs non comprises) ou moins et peut contenir des couleurs. " +
+                        "Il apparaît devant le nom dans le chat : " + "[" + ChatColor.AQUA + "fact" + ChatColor.GREEN + "ion" + ChatColor.WHITE + "]" + event.getPlayer().getDisplayName() + ChatColor.WHITE + " : message" + ChatColor.GOLD + ".");
+                factionCreationPhase2.add(event.getPlayer());
+            } else {
+                event.getPlayer().sendMessage(messagePrefix + ChatColor.RED + "Le nom doit être composé de 20 caractères ou moins !");
+            }
         } else if (factionRename.contains(event.getPlayer())) {
             event.setCancelled(true);
             factionRename.remove(event.getPlayer());
@@ -62,6 +66,7 @@ public class ChatInputListener implements Listener {
             }
 
         } else if (factionCreationPhase3.contains(event.getPlayer())) {
+            event.setCancelled(true);
             PlayerProfile playerProfile = Main.loader.getPlayerProfile(event.getPlayer().getUniqueId());
             playerProfile.getFaction().setDescription(event.getMessage());
             factionCreationPhase3.remove(event.getPlayer());
