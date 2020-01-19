@@ -30,9 +30,6 @@ public class CommandFaction implements CommandExecutor {
                     Selectionner une faction (Créer un nouveau type de bouton) (liste de toutes les factions)
                         Rejoindre
                         Infos (...)
-                Créer une faction
-                    Ajouter le joueur dans la liste @see ChatInputListener
-                Carte (On/Off)
             */
 
          // Si le joueur à une faction, mais n'est pas chef, ni officier

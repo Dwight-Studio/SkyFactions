@@ -9,6 +9,7 @@ import brian.menuinterface.events.ButtonClickEvent;
 import brian.menuinterface.types.StandardMenu;
 import fr.dwightstudio.skyfactions.Listeners.ChatInputListener;
 import fr.dwightstudio.skyfactions.Main;
+import fr.dwightstudio.skyfactions.Objects.Faction;
 import fr.dwightstudio.skyfactions.Objects.ItemBuilder;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -27,12 +28,21 @@ public class MenuBuilder {
 
         //Child menu (Parcourir les factions)
         StandardMenu factionsMenu = StandardMenu.create(3, "Parcourir les factions");
+        int slot = 0;
+        for (Faction faction : Main.loader.getFactions()) {
+            StandardMenu factionMenu = StandardMenu.create(3, "Faction : " + faction.getName());
+            MenuButton factionButton = new MenuButton(new ItemBuilder(Material.FILLED_MAP).setName(faction.getName()).addLoreLine(faction.getDescription()).toItemStack(),slot);
+            factionsMenu.addChild("factionMenu",factionMenu);
+            factionMenu.addButton(factionButton);
+            slot++;
+        }
 
         //Buttons
-        MenuButton factionsButton = new MenuButton(new ItemBuilder(Material.SHIELD).setName("Parcourir les factions").addLoreLine("Rejoindre ou candidater pour une Faction.").toItemStack(),
-                12,
-                DefaultButtons.OPEN,
+        MenuButton factionsButton = DefaultButtons.OPEN.getButtonOfItemStack(new ItemBuilder(Material.SHIELD).setName("Parcourir les factions").addLoreLine("Rejoindre ou candidater pour une Faction.").toItemStack(),
                 "factionsMenu");
+        factionsButton.setSlot(12);
+
+        //FIXME: CA FONTIONNEL PAS JSP PK
 
         MenuButton mapButton = new MenuButton(new ItemBuilder(Material.FILLED_MAP).setName("Carte (ON/OFF)").addLoreLine("Activer/Désactiver l'affichage de la carte.").toItemStack(), 13);
         mapButton.setClickEvent(new Consumer<ButtonClickEvent>() {
@@ -59,8 +69,9 @@ public class MenuBuilder {
         });
 
         //Bind Buttons and Menus
-        menu.addChild("factionsMenu",factionsMenu);
+        player.sendMessage(factionsButton.getIdentifier());
         menu.addButton(factionsButton);
+        menu.addChild("factionsMenu",factionsMenu);
         menu.addButton(mapButton);
         menu.addButton(createFactionButton);
 
